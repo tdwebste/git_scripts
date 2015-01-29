@@ -1,0 +1,2 @@
+#line continuation trip to aviod dos line ending ctrl Q ctrl M added to commands# http://stackoverflow.com/questions/799417/gvim-showing-carriage-return-m-even-when-file-mode-is-explicitly-dos
+git ls-files -- '*.[CcHh]' '*.[cC][pP][pP]' >cscope.files; cscope -b;echo "cscope update"
