@@ -291,7 +291,7 @@ complete -o default -o nospace -F _git_checkout gco
 
 alias gco='git checkout'
 git config --global core.excludesfile "$HOME/.gitignore"
-git config --global user.name "$USER"
+git config --global user.name "Timothy Webster"
 if [ "$USER" == "tweb" ]; then
     git config --global user.email "$USER@amazon.com"
 else
