@@ -14,13 +14,13 @@ esac
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
-export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+#export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 # ... or force ignoredups and ignorespace
 export HISTCONTROL=ignoreboth
 
 #switch path order to select local autoconf or system autoconf
 #export PATH=$PATH:~/nrf/nrfjprog
-export PATH=~/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/bin:~/nrf/nrfjprog
+export PATH=~/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/bin
 
 
 # append to the history file, don't overwrite it
@@ -142,7 +142,7 @@ pt_git_co() {
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -247,21 +247,13 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-
-################################## Local Custom #############
-export GCCARMEMB_TOOLCHAIN_PATH="~/gccarmemb/"
-export ZEPHYR_GCC_VARIANT=gccarmemb
-
-#FPGA environment
-export QSYS_ROOTDIR="/home/tdwebste/intelFPGA_lite/16.1/quartus/sopc_builder/bin"
-
-source ~/.setup_epiphany_rc
-source ~/setenv.sh
-
-source $HOME/.cargo/env
+#. ~/src/git_scripts/.emb_bashrc
 
 #github ssh keys
 #https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_dsa_github
+if [ -f ~/.ssh/id_dsa_github ]; then
+    ssh-add ~/.ssh/id_dsa_github
+fi
+
 

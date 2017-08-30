@@ -1,0 +1,14 @@
+
+################################## Local Custom #############
+export PATH=$PATH:~/nrf/nrfjprog
+
+export GCCARMEMB_TOOLCHAIN_PATH="~/gccarmemb/"
+export ZEPHYR_GCC_VARIANT=gccarmemb
+
+#FPGA environment
+export QSYS_ROOTDIR="/home/tdwebste/intelFPGA_lite/16.1/quartus/sopc_builder/bin"
+
+source ~/.setup_epiphany_rc
+source ~/setenv.sh
+
+source $HOME/.cargo/env
