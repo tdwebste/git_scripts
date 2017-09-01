@@ -192,14 +192,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-# mint-fortune
-[ -e /usr/bin/mint-fortune ] && /usr/bin/mint-fortune
-
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -213,19 +205,17 @@ if [ -x /usr/bin/dircolors ]; then
     alias pcregrep='pcregrep --color=auto'
 fi
 
-# some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+# mint-fortune
+[ -e /usr/bin/mint-fortune ] && /usr/bin/mint-fortune
 
 # required for UBUNTU
 # enable programmable completion features (you don't need to enable
@@ -280,3 +270,6 @@ if [ -f ~/.ssh/id_dsa_github ]; then
 fi
 
 
+if [ -e /etc/brazilcli.env ]; then
+    export PATH=$BRAZIL_CLI_BIN:$PATH
+fi
