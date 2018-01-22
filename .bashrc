@@ -20,7 +20,7 @@ export HISTCONTROL=ignoreboth
 
 #switch path order to select local autoconf or system autoconf
 #export PATH=$PATH:~/nrf/nrfjprog
-export PATH=~/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+export PATH=~/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/sbin:/usr/sbin:/sbin:/snap/bin
 
 
 # append to the history file, don't overwrite it
