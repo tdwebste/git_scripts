@@ -1,6 +1,7 @@
 set nocompatible
-filetype indent plugin on
+execute pathogen#infect()
 syntax on
+filetype indent plugin on
 
 set wildmenu
 set showcmd
@@ -8,49 +9,49 @@ set showcmd
 set hlsearch
 set ignorecase
 set smartcase
- 
+
 " Allow backspacing over autoindent, line breaks and start of insert action
 set backspace=indent,eol,start
 set autoindent
 
 "set nostartofline
- 
+
 set ruler
 set laststatus=2
- 
+
 " Instead of failing a command because of unsaved changes, instead raise a
 " dialogue asking if you wish to save changed files.
 set confirm
 
 
 " Don't redraw while executing macros (good performance config)
-set lazyredraw 
+set lazyredraw
 
 " For regular expressions turn magic on
 set magic
 
 " Show matching brackets when text indicator is over them
-set showmatch 
+set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=5
 
 
 set visualbell
 set t_vb=
- 
+
 " Enable use of the mouse for all modes
 set mouse=a
- 
+
 " Set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
 set cmdheight=2
 
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200
- 
+
 " Use <F11> to toggle between 'paste' and 'nopaste'
 set pastetoggle=<F11>
- 
+
 "------------------------------------------------------------
 set smartindent
 set shiftwidth=4
@@ -63,9 +64,43 @@ set expandtab
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 " which is the default
 "map Y y$
- 
+
 " Map <C-L> (redraw screen) to also turn off search highlighting until the
 " next search
 nnoremap <C-L> :nohl<CR><C-L>
 
 let acp_enableAtStartup=0
+
+" pathogen install
+" mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+" curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+"
+" synastic install
+" cd ~/.vim/bundle && \
+" git clone --depth=1 https://github.com/vim-syntastic/syntastic.git
+"
+" SuperTab install
+" cd ~/.vim/bundle && \
+" git clone --depth=1 https://github.com/ervandew/supertab.git
+"
+" Tagbar install
+" cd ~/.vim/bundle && \
+" git clone --depth=1 git clone git://github.com/majutsushi/tagbar
+"
+" install universal-ctags
+" git clone https://github.com/universal-ctags/ctags.git
+" cd ctags
+" ./autogen.sh
+" ./configure
+" make
+" sudo make install
+"
+" synastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
