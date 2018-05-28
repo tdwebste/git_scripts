@@ -20,7 +20,7 @@ export HISTCONTROL=ignoreboth
 
 #switch path order to select local autoconf or system autoconf
 #export PATH=$PATH:~/nrf/nrfjprog
-export PATH=~/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/sbin:/usr/sbin:/sbin:/snap/bin
+export PATH=~/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
 
 # append to the history file, don't overwrite it
@@ -228,6 +228,9 @@ if ! [ `type -t have` ]; then
         return $?
     }
 fi
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
         . /usr/share/bash-completion/bash_completion
@@ -262,3 +265,4 @@ fi
 if [ -e /etc/brazilcli.env ]; then
     export PATH=$BRAZIL_CLI_BIN:$PATH
 fi
+# Virtual Environment Wrapper
