@@ -266,6 +266,10 @@ fi
 if [ -e /etc/brazilcli.env ]; then
     export PATH=$BRAZIL_CLI_BIN:$PATH
 fi
+if [ -d /home/local/ANT/tweb/.local/share/umake/bin ]; then
+    # Ubuntu make installation of Ubuntu Make binary symlink
+    export PATH=/home/local/ANT/tweb/.local/share/umake/bin:$PATH
+fi
 if [ -d /usr/local/cuda-9.0 ]; then
     export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
     export PATH=/usr/local/cuda-9.0/bin:$PATH
