@@ -3,8 +3,19 @@ execute pathogen#infect()
 syntax on
 filetype indent plugin on
 
+set history=500
 set wildmenu
 set showcmd
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
+
 
 set hlsearch
 set ignorecase

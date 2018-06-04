@@ -20,15 +20,18 @@ export HISTCONTROL=ignoreboth
 
 #switch path order to select local autoconf or system autoconf
 #export PATH=$PATH:~/nrf/nrfjprog
-export PATH=~/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+export PATH=~/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/sbin:/usr/sbin:/sbin
+if [ -d /snap/bin ]; then
+    export PATH=$PATH:/snap/bin
+fi
 
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=10000
-HISTFILESIZE=20000
+HISTSIZE=90000
+HISTFILESIZE=90000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -205,13 +208,11 @@ if [ -x /usr/bin/dircolors ]; then
     alias pcregrep='pcregrep --color=auto'
 fi
 
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 # mint-fortune
@@ -264,5 +265,9 @@ fi
 
 if [ -e /etc/brazilcli.env ]; then
     export PATH=$BRAZIL_CLI_BIN:$PATH
+fi
+if [ -d /usr/local/cuda-9.0 ]; then
+    export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
+    export PATH=/usr/local/cuda-9.0/bin:$PATH
 fi
 # Virtual Environment Wrapper
