@@ -213,10 +213,6 @@ fi
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-# mint-fortune
-[ -e /usr/bin/mint-fortune ] && /usr/bin/mint-fortune
 
 # required for UBUNTU
 # enable programmable completion features (you don't need to enable
@@ -244,6 +240,24 @@ if ! shopt -oq posix; then
     fi
 fi
 
+
+ # if the command-not-found package is installed, use it
+if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-not-found ]; then
+    function command_not_found_handle {
+        # check because c-n-f could've been removed in the meantime
+        if [ -x /usr/lib/command-not-found ]; then
+	   /usr/lib/command-not-found -- "$1"
+           return $?
+        elif [ -x /usr/share/command-not-found/command-not-found ]; then
+	   /usr/share/command-not-found/command-not-found -- "$1"
+           return $?
+	else
+	   printf "%s: command not found\n" "$1" >&2
+	   return 127
+	fi
+    }
+fi
+
 #git alias
 #‘gco ‘, hit tab, and see all of branches
 complete -o default -o nospace -F _git_checkout gco
@@ -262,6 +276,9 @@ if [ -f ~/.ssh/id_dsa_github ]; then
     ssh-add ~/.ssh/id_dsa_github
 fi
 
+if [ -e "/apollo/env/SDETools/bin" ]; then
+        export PATH="/apollo/env/SDETools/bin:$PATH"
+fi
 
 if [ -e /etc/brazilcli.env ]; then
     export PATH=$BRAZIL_CLI_BIN:$PATH
@@ -274,4 +291,10 @@ if [ -d /usr/local/cuda-9.0 ]; then
     export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
     export PATH=/usr/local/cuda-9.0/bin:$PATH
 fi
+
+# amazon toolbox https://w.amazon.com/index.php/BuilderToolbox/GettingStarted#Install_Toolbox
 # Virtual Environment Wrapper
+if [ -d $HOME/.toolbox/bin ]; then
+    export PATH=$HOME/.toolbox/bin:$PATH
+fi
+
