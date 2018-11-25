@@ -20,7 +20,9 @@ export HISTCONTROL=ignoreboth
 
 #switch path order to select local autoconf or system autoconf
 #export PATH=$PATH:~/nrf/nrfjprog
-export PATH=~/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+#export PATH=~/bin:
+export PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+#export PATH=~/bin:$PATH #added by finding directories below ~/bin
 if [ -d /snap/bin ]; then
     export PATH=$PATH:/snap/bin
 fi
@@ -275,6 +277,7 @@ eval "$(ssh-agent -s)"
 if [ -f ~/.ssh/id_dsa_github ]; then
     ssh-add ~/.ssh/id_dsa_github
 fi
+ssh-add ~/.ssh/*_rsa
 
 if [ -e "/apollo/env/SDETools/bin" ]; then
         export PATH="/apollo/env/SDETools/bin:$PATH"
@@ -298,3 +301,6 @@ if [ -d $HOME/.toolbox/bin ]; then
     export PATH=$HOME/.toolbox/bin:$PATH
 fi
 
+
+EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
+export PATH=$PATH:$EXTPATH
