@@ -1,0 +1,20 @@
+[user]
+	email = tweb@amazon.com
+	name = ${LOGNAME}
+[color]
+	ui = auto
+[core]
+	pager = less -FMRiX
+	excludesfile = ${HOME}/.gitignore
+[push]
+	default = simple
+[alias]
+	dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+	graph = log --graph --oneline –decorate=short
+[diff]
+	tool = gvimdiff
+[difftool]
+	prompt = false
+[merge]
+	tool = gvimdiff
+	conflictstyle = diff3
