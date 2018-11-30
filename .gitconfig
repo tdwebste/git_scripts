@@ -1,11 +1,11 @@
 [user]
 	email = tweb@amazon.com
-	name = ${LOGNAME}
+	name = tweb
 [color]
 	ui = auto
 [core]
 	pager = less -FMRiX
-	excludesfile = ${HOME}/.gitignore
+	excludesfile = /home/ANT.AMAZON.COM/tweb/.gitignore
 [push]
 	default = simple
 [alias]

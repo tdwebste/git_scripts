@@ -4,8 +4,9 @@
 
 # Source global definitions
 if [ -f /etc/bash.bashrc ]; then
-        . /etc/bash.bashrc
+    . /etc/bash.bashrc
 fi
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -52,28 +53,46 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # set variable identifying the git branch you work in (used in the prompt below)
-export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWDIRTYSTATE=1     # unstaged *, staged +
+export GIT_PS1_SHOWUNTRACKEDFILES=1 # untracked %
+export GIT_PS1_SHOWSTASHSTATE=1     # stashed #
+export GIT_PS1_SHOWUPSTREAM="auto"
+
+
+if [ -f $HOME/src/git_scripts/findbranch.sh ]; then
+    _timed_git_ps1() {
+        timeout 1 $HOME/src/git_scripts/findbranch.sh
+    }
+else
+    _timed_git_ps1() {
+        time __git_ps1
+    }
+fi
 
 pt_user_co() {
     if [ "$(id -u)" == "0" ]; then
+        # root red
         echo -en "\033[1;31m"
     else
+        # not root green
         echo -en "\033[1;32m"
     fi
 }
 
 pt_host_co() {
     if [[ ${SSH_CLIENT} ]] || [[ ${SSH2_CLIENT} ]]; then 
+        # ssh login purple
         echo -en "\033[1;35m"
     else
+        # nossh login blue
         echo -en "\033[1;34m"
     fi
 }
 
+
 _git_repo() {
     if type -p __git_ps1; then
-#        branch=$(__git_ps1 '%s')
-        branch=$(__git_ps1)
+        branch=$(_timed_git_ps1) 
         if [ -n "$branch" ]; then 
             subdir=$(git rev-parse --show-prefix 2>/dev/null)
             subdir="${subdir%/}" 
@@ -87,8 +106,7 @@ _git_repo() {
 
 _git_repo_path() {
     if type -p __git_ps1; then
-#        branch=$(__git_ps1 '%s')
-        branch=$(__git_ps1)
+        branch=$(_timed_git_ps1)
         if [ -n "$branch" ]; then 
             n_remote="$(git remote | wc -l)"
             if [ $n_remote -eq 0 ]; then 
@@ -129,8 +147,7 @@ _git_repo_path() {
 # detect working directory relative to working tree root
 pt_git_co() {
     if type -p __git_ps1; then
-#        branch=$(__git_ps1 '%s')
-        branch=$(__git_ps1)
+        branch=$(_timed_git_ps1)
         if [ -n "$branch" ]; then 
             if [ -n "$1" ]; then
                 printf "$1" "${branch}"
