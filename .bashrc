@@ -209,11 +209,6 @@ esac
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -229,6 +224,7 @@ fi
 
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
@@ -296,10 +292,6 @@ if [ -f ~/.ssh/id_dsa_github ]; then
 fi
 ssh-add ~/.ssh/*_rsa
 
-if [ -e "/apollo/env/SDETools/bin" ]; then
-        export PATH="/apollo/env/SDETools/bin:$PATH"
-fi
-
 if [ -d /home/local/ANT/tweb/.local/share/umake/bin ]; then
     # Ubuntu make installation of Ubuntu Make binary symlink
     export PATH=/home/local/ANT/tweb/.local/share/umake/bin:$PATH
@@ -309,8 +301,10 @@ if [ -d /usr/local/cuda-9.0 ]; then
     export PATH=/usr/local/cuda-9.0/bin:$PATH
 fi
 
-# amazon toolbox https://w.amazon.com/index.php/BuilderToolbox/GettingStarted#Install_Toolbox
 # Virtual Environment Wrapper
+if [ -e "/apollo/env/SDETools/bin" ]; then
+        export PATH="/apollo/env/SDETools/bin:$PATH"
+fi
 if [ -e /etc/brazilcli.env ]; then
     export PATH=$BRAZIL_CLI_BIN:$PATH
 fi
