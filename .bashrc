@@ -56,7 +56,7 @@ fi
 export GIT_PS1_SHOWDIRTYSTATE=1     # unstaged *, staged +
 export GIT_PS1_SHOWUNTRACKEDFILES=1 # untracked %
 export GIT_PS1_SHOWSTASHSTATE=1     # stashed #
-export GIT_PS1_SHOWUPSTREAM="auto"
+export GIT_PS1_SHOWUPSTREAM="auto"  # "<>" diverged and "=" no difference.
 
 
 if [ -f $HOME/src/git_scripts/findbranch.sh ]; then
