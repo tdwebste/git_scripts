@@ -94,7 +94,7 @@ _git_repo() {
     if type -p __git_ps1; then
         branch=$(_timed_git_ps1) 
         if [ -n "$branch" ]; then 
-            subdir=$(git rev-parse --show-prefix 2>/dev/null)
+            subdir=$(timeout 1 git rev-parse --show-prefix 2>/dev/null)
             subdir="${subdir%/}" 
             predir="${PWD%/$subdir}"
             echo -ne "${predir#~}/${subdir}"
@@ -120,7 +120,7 @@ _git_repo_path() {
                 c_rem="[1;35m"
             fi
 
-            status=$(git status 2> /dev/null)
+            status=$(timeout 1 git status 2> /dev/null)
             if $(echo $status | grep 'added to commit' &> /dev/null); then
             # If we have modified files but no index (blue)
                c_stat="[1;34m"
@@ -134,7 +134,7 @@ _git_repo_path() {
                 fi
             fi
 
-            subdir=$(git rev-parse --show-prefix 2>/dev/null)
+            subdir=$(timeout 1 git rev-parse --show-prefix 2>/dev/null)
             subdir="${subdir%/}" 
             predir="${PWD%/$subdir}"
             echo -ne "\033[01;34m~${predir#~}\033${c_rem}/${subdir}\033${c_stat}"
@@ -300,9 +300,6 @@ if [ -e "/apollo/env/SDETools/bin" ]; then
         export PATH="/apollo/env/SDETools/bin:$PATH"
 fi
 
-if [ -e /etc/brazilcli.env ]; then
-    export PATH=$BRAZIL_CLI_BIN:$PATH
-fi
 if [ -d /home/local/ANT/tweb/.local/share/umake/bin ]; then
     # Ubuntu make installation of Ubuntu Make binary symlink
     export PATH=/home/local/ANT/tweb/.local/share/umake/bin:$PATH
@@ -314,6 +311,9 @@ fi
 
 # amazon toolbox https://w.amazon.com/index.php/BuilderToolbox/GettingStarted#Install_Toolbox
 # Virtual Environment Wrapper
+if [ -e /etc/brazilcli.env ]; then
+    export PATH=$BRAZIL_CLI_BIN:$PATH
+fi
 if [ -d $HOME/.toolbox/bin ]; then
     export PATH=$HOME/.toolbox/bin:$PATH
 fi
