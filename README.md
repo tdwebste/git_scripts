@@ -6,6 +6,7 @@ git tools and scripts
 Setup
 ====
 mkdir -p ~/src ~/bin; cd ~/src
+git clone https://github.com/tdwebste/git_scripts.git
 git clone https://github.com/git/git
 
 cd ~
