@@ -292,9 +292,9 @@ if [ -f ~/.ssh/id_dsa_github ]; then
 fi
 ssh-add ~/.ssh/*_rsa
 
-if [ -d /home/local/ANT/tweb/.local/share/umake/bin ]; then
+if [ -d $HOME/.local/share/umake/bin ]; then
     # Ubuntu make installation of Ubuntu Make binary symlink
-    export PATH=/home/local/ANT/tweb/.local/share/umake/bin:$PATH
+    export PATH=$HOME/.local/share/umake/bin:$PATH
 fi
 if [ -d /usr/local/cuda-9.0 ]; then
     export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
