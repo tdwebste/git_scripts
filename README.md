@@ -8,6 +8,9 @@ alias grep_all="git branch -a | tr -d \* | sed '/->/d' | xargs git grep"
 find file in all branches
 git log --all --source --pretty=oneline -- path_to_file
 
+exclude files from match
+git grep -l  pattern -- './' ':!*/sensor/libs/*'
+
 
 
 git_scripts
