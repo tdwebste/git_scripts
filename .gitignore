@@ -3,5 +3,10 @@
 *~
 .*~
 
+#build files
+*.o
+*.pyc
 
-
+#temp files
+*.log
+*.junk

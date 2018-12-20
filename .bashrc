@@ -58,10 +58,12 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1 # untracked %
 export GIT_PS1_SHOWSTASHSTATE=1     # stashed #
 export GIT_PS1_SHOWUPSTREAM="auto"  # "<>" diverged and "=" no difference.
 
+export PS1_DELAY=1
+
 
 if [ -f $HOME/src/git_scripts/findbranch.sh ]; then
     _timed_git_ps1() {
-        timeout 1 $HOME/src/git_scripts/findbranch.sh
+        timeout $PS1_DELAY $HOME/src/git_scripts/findbranch.sh
     }
 else
     _timed_git_ps1() {
@@ -94,7 +96,7 @@ _git_repo() {
     if type -p __git_ps1; then
         branch=$(_timed_git_ps1) 
         if [ -n "$branch" ]; then 
-            subdir=$(timeout 1 git rev-parse --show-prefix 2>/dev/null)
+            subdir=$(timeout $PS1_DELAY git rev-parse --show-prefix 2>/dev/null)
             subdir="${subdir%/}" 
             predir="${PWD%/$subdir}"
             echo -ne "${predir#~}/${subdir}"
@@ -120,7 +122,7 @@ _git_repo_path() {
                 c_rem="[1;35m"
             fi
 
-            status=$(timeout 1 git status 2> /dev/null)
+            status=$(timeout $PS1_DELAY git status 2> /dev/null)
             if $(echo $status | grep 'added to commit' &> /dev/null); then
             # If we have modified files but no index (blue)
                c_stat="[1;34m"
@@ -134,7 +136,7 @@ _git_repo_path() {
                 fi
             fi
 
-            subdir=$(timeout 1 git rev-parse --show-prefix 2>/dev/null)
+            subdir=$(timeout $PS1_DELAY git rev-parse --show-prefix 2>/dev/null)
             subdir="${subdir%/}" 
             predir="${PWD%/$subdir}"
             echo -ne "\033[01;34m~${predir#~}\033${c_rem}/${subdir}\033${c_stat}"
