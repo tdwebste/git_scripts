@@ -18,3 +18,6 @@
 [merge]
 	tool = gvimdiff
 	conflictstyle = diff3
+[grep]
+	extendRegexp = true
+	lineNumber = true
