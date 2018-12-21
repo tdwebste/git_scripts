@@ -13,6 +13,10 @@ git log --all --source --pretty=oneline -- path_to_file
 exclude files from match
 ```
 git grep -l  pattern -- './' ':!*/sensor/libs/*'
+https://kgrz.io/git-intro-to-pathspec.html
+https://git-scm.com/docs/gitglossary.html#def_pathspec
+top, exclude, icase, literal
+:(top,exclude) etc
 ```
 
 
