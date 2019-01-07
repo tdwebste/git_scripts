@@ -15,6 +15,8 @@ exclude files from match
 git grep -l  pattern -- './' ':!*/sensor/libs/*'
 ```
 
+https://itextpdf.com/en/blog/technical-notes/how-completely-remove-file-git-repository
+
 
 git_scripts
 ===========
