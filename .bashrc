@@ -317,3 +317,8 @@ fi
 
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
+
+#https://github.com/ingydotnet/git-subrepo
+if [ -d  "$HOME/bin/git-subrepo" ]; then
+    source $HOME/bin/git-subrepo/.rc
+fi
