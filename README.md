@@ -21,6 +21,11 @@ top, exclude, icase, literal
 
 https://itextpdf.com/en/blog/technical-notes/how-completely-remove-file-git-repository
 
+```
+git log format cheatsheet
+```
+https://devhints.io/git-log-format
+
 
 git_scripts
 ===========
