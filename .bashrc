@@ -80,7 +80,7 @@ pt_user_co() {
 }
 
 pt_host_co() {
-    if [[ ${SSH_CLIENT} ]] || [[ ${SSH2_CLIENT} ]]; then 
+    if [[ ${SSH_CLIENT} ]] || [[ ${SSH2_CLIENT} ]]; then
         # ssh login purple
         echo -en "\033[1;35m"
     else
@@ -92,10 +92,10 @@ pt_host_co() {
 
 _git_repo() {
     if type -p __git_ps1; then
-        branch=$(_timed_git_ps1) 
-        if [ -n "$branch" ]; then 
+        branch=$(_timed_git_ps1)
+        if [ -n "$branch" ]; then
             subdir=$(timeout 1 git rev-parse --show-prefix 2>/dev/null)
-            subdir="${subdir%/}" 
+            subdir="${subdir%/}"
             predir="${PWD%/$subdir}"
             echo -ne "${predir#~}/${subdir}"
         else
@@ -107,9 +107,9 @@ _git_repo() {
 _git_repo_path() {
     if type -p __git_ps1; then
         branch=$(_timed_git_ps1)
-        if [ -n "$branch" ]; then 
+        if [ -n "$branch" ]; then
             n_remote="$(git remote | wc -l)"
-            if [ $n_remote -eq 0 ]; then 
+            if [ $n_remote -eq 0 ]; then
             # no remote repo, no backup red
                 c_rem="[1;31m"
             elif [ $n_remote -eq 1 ]; then
@@ -121,7 +121,8 @@ _git_repo_path() {
             fi
 
             status=$(timeout 1 git status 2> /dev/null)
-            if $(echo $status | grep 'added to commit' &> /dev/null); then
+            #if $(echo $status | grep 'added to commit' &> /dev/null); then
+            if $(echo $branch | grep -q '%') ; then
             # If we have modified files but no index (blue)
                c_stat="[1;34m"
             else
@@ -135,7 +136,7 @@ _git_repo_path() {
             fi
 
             subdir=$(timeout 1 git rev-parse --show-prefix 2>/dev/null)
-            subdir="${subdir%/}" 
+            subdir="${subdir%/}"
             predir="${PWD%/$subdir}"
             echo -ne "\033[01;34m~${predir#~}\033${c_rem}/${subdir}\033${c_stat}"
         else
@@ -148,7 +149,7 @@ _git_repo_path() {
 pt_git_co() {
     if type -p __git_ps1; then
         branch=$(_timed_git_ps1)
-        if [ -n "$branch" ]; then 
+        if [ -n "$branch" ]; then
             if [ -n "$1" ]; then
                 printf "$1" "${branch}"
             else
