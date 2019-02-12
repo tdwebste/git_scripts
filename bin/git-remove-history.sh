@@ -10,7 +10,7 @@ set -o errexit
 #
  
 if [ $# -eq 0 ]; then
-    exit 0are still
+    exit 0
 fi
  
 # make sure we're at the root of git repo

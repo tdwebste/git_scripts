@@ -33,8 +33,8 @@ fi
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=90000
-HISTFILESIZE=90000
+HISTSIZE=9999999999999000000
+HISTFILESIZE=900000000999999999
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -58,10 +58,12 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1 # untracked %
 export GIT_PS1_SHOWSTASHSTATE=1     # stashed #
 export GIT_PS1_SHOWUPSTREAM="auto"  # "<>" diverged and "=" no difference.
 
+export PS1_DELAY=1
+
 
 if [ -f $HOME/src/git_scripts/findbranch.sh ]; then
     _timed_git_ps1() {
-        timeout 1 $HOME/src/git_scripts/findbranch.sh
+        timeout $PS1_DELAY $HOME/src/git_scripts/findbranch.sh
     }
 else
     _timed_git_ps1() {
@@ -94,7 +96,7 @@ _git_repo() {
     if type -p __git_ps1; then
         branch=$(_timed_git_ps1)
         if [ -n "$branch" ]; then
-            subdir=$(timeout 1 git rev-parse --show-prefix 2>/dev/null)
+            subdir=$(timeout $PS1_DELAY git rev-parse --show-prefix 2>/dev/null)
             subdir="${subdir%/}"
             predir="${PWD%/$subdir}"
             echo -ne "${predir#~}/${subdir}"
@@ -120,9 +122,8 @@ _git_repo_path() {
                 c_rem="[1;35m"
             fi
 
-            status=$(timeout 1 git status 2> /dev/null)
-            #if $(echo $status | grep 'added to commit' &> /dev/null); then
-            if $(echo $branch | grep -q '%') ; then
+            status=$(timeout $PS1_DELAY git status 2> /dev/null)
+            if $(echo $status | grep 'added to commit' &> /dev/null); then
             # If we have modified files but no index (blue)
                c_stat="[1;34m"
             else
@@ -135,8 +136,8 @@ _git_repo_path() {
                 fi
             fi
 
-            subdir=$(timeout 1 git rev-parse --show-prefix 2>/dev/null)
-            subdir="${subdir%/}"
+            subdir=$(timeout $PS1_DELAY git rev-parse --show-prefix 2>/dev/null)
+            subdir="${subdir%/}" 
             predir="${PWD%/$subdir}"
             echo -ne "\033[01;34m~${predir#~}\033${c_rem}/${subdir}\033${c_stat}"
         else
@@ -222,6 +223,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
     alias pcregrep='pcregrep --color=auto'
 fi
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -316,3 +318,8 @@ fi
 
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
+
+#https://github.com/ingydotnet/git-subrepo
+if [ -d  "$HOME/bin/git-subrepo" ]; then
+    source $HOME/bin/git-subrepo/.rc
+fi
