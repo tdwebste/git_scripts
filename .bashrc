@@ -282,6 +282,13 @@ fi
 complete -o default -o nospace -F _git_checkout gco
 
 alias gco='git checkout'
+git config --global core.excludesfile "$HOME/.gitignore"
+git config --global user.name "$USER"
+if [ "$USER" == "tweb" ]; then
+    git config --global user.name "$USER@amazon.com"
+else
+    git config --global user.email "$USER@gmail.com"
+fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
