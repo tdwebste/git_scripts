@@ -300,9 +300,9 @@ if [ -d $HOME/.local/share/umake/bin ]; then
     # Ubuntu make installation of Ubuntu Make binary symlink
     export PATH=$HOME/.local/share/umake/bin:$PATH
 fi
-if [ -d /usr/local/cuda-9.0 ]; then
-    export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
-    export PATH=/usr/local/cuda-9.0/bin:$PATH
+if [ -d /usr/local/cuda ]; then
+    export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+    export PATH=/usr/local/cuda/bin:$PATH
 fi
 
 # Virtual Environment Wrapper
@@ -319,8 +319,3 @@ fi
 
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
-
-#https://github.com/ingydotnet/git-subrepo
-if [ -d  "$HOME/bin/git-subrepo" ]; then
-    source $HOME/bin/git-subrepo/.rc
-fi
