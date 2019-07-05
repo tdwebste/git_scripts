@@ -226,6 +226,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias bre='brazil-runtime-exec'
 fi
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias Glog="git log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -283,6 +284,13 @@ fi
 complete -o default -o nospace -F _git_checkout gco
 
 alias gco='git checkout'
+git config --global core.excludesfile "$HOME/.gitignore"
+git config --global user.name "$USER"
+if [ "$USER" == "tweb" ]; then
+    git config --global user.name "$USER@amazon.com"
+else
+    git config --global user.email "$USER@gmail.com"
+fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -301,9 +309,9 @@ if [ -d $HOME/.local/share/umake/bin ]; then
     # Ubuntu make installation of Ubuntu Make binary symlink
     export PATH=$HOME/.local/share/umake/bin:$PATH
 fi
-if [ -d /usr/local/cuda-9.0 ]; then
-    export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
-    export PATH=/usr/local/cuda-9.0/bin:$PATH
+if [ -d /usr/local/cuda ]; then
+    export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+    export PATH=/usr/local/cuda/bin:$PATH
 fi
 
 # Virtual Environment Wrapper
@@ -320,8 +328,3 @@ fi
 
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
-
-#https://github.com/ingydotnet/git-subrepo
-if [ -d  "$HOME/bin/git-subrepo" ]; then
-    source $HOME/bin/git-subrepo/.rc
-fi

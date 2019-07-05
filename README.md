@@ -42,8 +42,8 @@ git clone https://github.com/git/git
 cd ~
 ln -s ~/src/git_scripts/.bashrc
 ln -s ~/src/git_scripts/.gitconfig
-ls -s ~/src/git_scripts/.gitignore
-ls -s ~/src/git_scripts/.vimrc
+ln -s ~/src/git_scripts/.gitignore
+ln -s ~/src/git_scripts/.vimrc
 ```
 Optional
 ==
