@@ -228,6 +228,9 @@ fi
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias Glog="git log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
@@ -261,6 +264,9 @@ if ! shopt -oq posix; then
     fi
 fi
 
+if [ -e /usr/bin/aws_completer ]; then
+    complete -C '/usr/bin/aws_completer' aws
+fi
 
  # if the command-not-found package is installed, use it
 if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-not-found ]; then
@@ -287,7 +293,7 @@ alias gco='git checkout'
 git config --global core.excludesfile "$HOME/.gitignore"
 git config --global user.name "$USER"
 if [ "$USER" == "tweb" ]; then
-    git config --global user.name "$USER@amazon.com"
+    git config --global user.email "$USER@amazon.com"
 else
     git config --global user.email "$USER@gmail.com"
 fi
@@ -325,6 +331,8 @@ if [ -d $HOME/.toolbox/bin ]; then
     export PATH=$HOME/.toolbox/bin:$PATH
 fi
 
+alias mark="pwd > ~/.sd"
+alias port='cd $(cat ~/.sd)'
 
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
