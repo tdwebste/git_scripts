@@ -225,8 +225,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias bb="brazil-build"
     alias bre='brazil-runtime-exec'
 fi
-alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias Glog="git log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit"
+alias Glog="git log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -336,3 +336,6 @@ alias port='cd $(cat ~/.sd)'
 
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
+
+export PATH=$HOME/.rbenv/bin:$PATH
+eval "$(rbenv init -)"

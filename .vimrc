@@ -117,3 +117,15 @@ let acp_enableAtStartup=0
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
+
+
+command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
+
+"nnoremap <silent> <F3> :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR>
+
+"nnoremap <silent> <F4> :redir >>matches.tmp<CR>:g//<CR>:redir END<CR>:new matches.tmp<CR>
+":redir @a         redirect output to register a
+":%g/OpenSSH 7.2p2/-3,. p
+":redir END        end redirection
+":new              create new window
+":put! a           paste register a into new window
