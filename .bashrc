@@ -225,6 +225,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias bb="brazil-build"
     alias bre='brazil-runtime-exec'
 fi
+alias ggrep="git branch -a | tr -d \* | sed '/->/d' | xargs git grep"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit"
 alias Glog="git log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit"
 
