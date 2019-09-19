@@ -1,23 +1,23 @@
 #!/bin/bash
 
-#opt=
-# q quiet
-
-#opt=$1; shift
+# quote patters "path*"
+# quote command "pwd;git branch | grep '*'"
+path="$1"
+echo "path: $path"
+shift
 cmd0="$*"
-#echo "opt=$opt"
-echo "$cmd0"
+if [ -z "$cmd0" ]; then
+    cmd0="pwd;git branch |grep '*'"
+fi
+echo "cmd: $cmd0"
 ##exit
 
 pw="$PWD"
-find . -name '.git' -print -prune| while read dir; do
+find $path -name '.git' -print -prune| while read dir; do
     cd "$pw"
     path="${dir#./}"
     path="${path%/.git}"
     cd "$path"
     echo
-    if $(echo $opt | grep -vq q); then
-        pwd
-    fi
     eval "$cmd0"
 done
