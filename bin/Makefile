@@ -1,10 +1,8 @@
-print-%  : ; @echo $* = $($*)
-
 #auto generate TARGET NAME
 #TARGET_EXEC ?= a.out
 BUILD_DIR ?= ./build
 SRC_DIRS ?= $(shell ls -d src 2>/dev/null || echo '.')
-SRC_BASE ?= $(shell ls -d src echo '')
+SRC_BASE ?= $(shell ls -d src || echo '')
 #SRC_DIRS ?= ./src
 TARGET_EXEC ?= $(shell ( grep -l 'int main' $(SRC_BASE)/*.c | sed -e 's#^src/##'  )
 
@@ -44,3 +42,5 @@ clean:
 -include $(DEPS)
 
 MKDIR_P ?= mkdir -p
+print-%  : ; @echo $* = $($*)
+
