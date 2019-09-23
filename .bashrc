@@ -225,7 +225,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias bb="brazil-build"
     alias bre='brazil-runtime-exec'
 fi
-alias git-grep="git branch -a | tr -d \* | sed '/->/d' | xargs git grep"
+alias git-greps="git branch -a | tr -d \* | sed '/->/d' | xargs git grep"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

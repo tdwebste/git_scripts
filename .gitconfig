@@ -2,13 +2,13 @@
 	ui = auto
 [core]
 	pager = less -FMRiX
-	excludesfile = /home/tdwebste/.gitignore
+	excludesfile = /home/ANT.AMAZON.COM/tweb/.gitignore
 [push]
 	default = simple
 [alias]
-	dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
-	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
-	Graph = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
+#	dagg = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+	gra = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
+	graph = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
 [diff]
 	tool = gvimdiff
 [difftool]
@@ -20,5 +20,5 @@
 	extendRegexp = true
 	lineNumber = true
 [user]
-	name = tdwebste
-	email = tdwebste@gmail.com
+	name = Timothy D. Webster
+	email = tweb@amazon.com
