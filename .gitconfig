@@ -7,14 +7,8 @@
 	default = simple
 [alias]
 #	dagg = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
-	gra = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
-	graph = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
-#	dagg = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
-	gra = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
-	graph = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
-	    #graphs
-	go = log --graph --pretty=format:'%C(yellow)%h%Creset%C(red bold)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --decorate --abbrev-commit --all --author-date-order
-	god = log --graph --pretty=format:'%C(yellow)%h%Creset%C(red bold)%d%Creset %s %Cgreen(%ci) %C(blue)<%an>%Creset' --decorate --abbrev-commit
+	go = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --all --author-date-order
+	god = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --all --author-date-order
 	g = log --oneline --decorate --graph --all
 	gs = log --oneline --decorate --graph --all --author-date-order
 	gbd = log --graph --simplify-by-decoration --pretty=format:'%C(yellow)%h%C(white)%d %C(bold black)%ai %C(reset)%n' --all
