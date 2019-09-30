@@ -9,6 +9,35 @@
 #	dagg = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
 	gra = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
 	graph = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
+#	dagg = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+	gra = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
+	graph = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --abbrev-commit
+	    #graphs
+	go = log --graph --pretty=format:'%C(yellow)%h%Creset%C(red bold)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --decorate --abbrev-commit --all --author-date-order
+	god = log --graph --pretty=format:'%C(yellow)%h%Creset%C(red bold)%d%Creset %s %Cgreen(%ci) %C(blue)<%an>%Creset' --decorate --abbrev-commit
+	g = log --oneline --decorate --graph --all
+	gs = log --oneline --decorate --graph --all --author-date-order
+	gbd = log --graph --simplify-by-decoration --pretty=format:'%C(yellow)%h%C(white)%d %C(bold black)%ai %C(reset)%n' --all
+	gb = log --graph --simplify-by-decoration --pretty=format:'%C(yellow)%h%C(white)%d %C(bold black)%ar %C(reset)%n' --all
+	g2 = log --graph --pretty=format':%s %C(bold blue)%an, %ar %Cgreen(%h)%Creset'
+	g3 = log --pretty=format:"%Cgreen%h%Creset %ad %C(cyan)%an%Creset %s%C(red)%d%Creset" --graph --date=short
+	g4 = log --graph --abbrev-commit --decorate --all --format=format:\"%C(bold blue)%h%C(dim black) %C(reset)%C(dim white)%aD%C(dim black) %C(bold blue)%an%C(reset) %C(green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)\"
+	g5 = log --graph --abbrev-commit --decorate --all --format=format:\"%C(bold blue)%h%C(reset) %C(bold cyan)%aD%C(dim white) %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)\"
+	glong = log --stat --decorate --graph
+	logMerges = log --first-parent --graph
+	ll = log --pretty=format:\"%C(bold blue)%h %C(red)%d %C(white bold)%s %Cgreen(%cr) %C(blue)<%an>%Creset %n\" --decorate --stat --graph
+	#graph with diffs, useful for tracking one file history
+	gdiff = log --oneline --decorate --graph --full-history -p  -c --color-words -b
+	gdifff = log --oneline --decorate --graph --follow --full-history -p  -c --color-words -b
+	gldiff = log --format=medium --decorate --graph -p  -c
+	gldifff = log --format=medium --decorate --graph --follow -p  -c
+	# https://salferrarello.com/using-vim-view-git-commits/
+	# View commit with K (upper case k)
+	vim = "!git log --graph --oneline --decorate --all --pretty=format:'%h %d %s <%an>' | vim -R -c \"set filetype=git nowrap\" -"
+	nvim = "!git log --graph --oneline --decorate --all --pretty=format:'%h %d %s <%an>' | nvim -R -c \"set filetype=git nowrap\" -"
+
+	aliases = "!git config -l | grep alias | cut -c 7-"
+	lasttag = describe --tags --abbrev=0
 [diff]
 	tool = gvimdiff
 [difftool]
@@ -19,6 +48,8 @@
 [grep]
 	extendRegexp = true
 	lineNumber = true
+[rebase]
+	autostash = true
 [user]
 	name = Timothy D. Webster
-	email = tweb@amazon.com
+	email = tdwebste@gmail.com
