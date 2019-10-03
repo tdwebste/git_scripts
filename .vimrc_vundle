@@ -142,32 +142,32 @@ Plugin 'tpope/vim-eunuch'
 
 let g:colorizer_startup = 0
 
-if hostname() =~ "build01"
-    Plugin 'vim-scripts/ccase.vim'
+"if hostname() =~ "build01"
+"    Plugin 'vim-scripts/ccase.vim'
     Plugin 'Valloric/YouCompleteMe'
     Plugin 'vim-scripts/ShowFunc.vim'
-endif
-
-if hostname() =~ "ankh"
-    Plugin 'Valloric/YouCompleteMe'
-    Plugin 'tbabej/taskwiki'
-endif
-if hostname() =~ "efebe"
-    Plugin 'Valloric/YouCompleteMe'
-    " Plugin 'tbabej/taskwiki'
-endif
-if hostname() =~ "krull"
-    Plugin 'Valloric/YouCompleteMe'
-    Plugin 'tbabej/taskwiki'
-endif
-if hostname() =~ "tezuman"
-    Plugin 'Valloric/YouCompleteMe'
-endif
-if hostname() =~ "chirm"
-    " Plugin 'MrAshLinux/vim-perforce'
-    Plugin 'Valloric/YouCompleteMe'
-    Plugin 'tbabej/taskwiki'
-endif
+"endif
+"
+"if hostname() =~ "ankh"
+"    Plugin 'Valloric/YouCompleteMe'
+"    Plugin 'tbabej/taskwiki'
+"endif
+"if hostname() =~ "efebe"
+"    Plugin 'Valloric/YouCompleteMe'
+"    " Plugin 'tbabej/taskwiki'
+"endif
+"if hostname() =~ "krull"
+"    Plugin 'Valloric/YouCompleteMe'
+"    Plugin 'tbabej/taskwiki'
+"endif
+"if hostname() =~ "tezuman"
+"    Plugin 'Valloric/YouCompleteMe'
+"endif
+"if hostname() =~ "chirm"
+"    " Plugin 'MrAshLinux/vim-perforce'
+"    Plugin 'Valloric/YouCompleteMe'
+"    Plugin 'tbabej/taskwiki'
+"endif
 
 Plugin 'kracejic/themeinabox.vim'
 
@@ -202,8 +202,8 @@ filetype plugin on
 
 
 "General
-set number  "Show line numbers
-set relativenumber
+"set number  "Show line numbers
+"set relativenumber
 nmap <leader>num :set nu! <CR>:set rnu!<CR>
 set wrap  "enable wraping
 set linebreak   "Break lines at word (requires Wrap lines)
@@ -250,7 +250,7 @@ set nobackup            " no backup~ files.
 set viminfo='20,\"500   " remember copy registers after quitting in the .viminfo file -- 20 jump links, regs up to 500 lines'
 set hidden              " remember undo after quitting
 set history=150          " keep 50 lines of command history
-set mouse=v             " use mouse in visual mode (not normal,insert,command,help mode
+"set mouse=v             " use mouse in visual mode (not normal,insert,command,help mode
 set t_ut=
 set previewheight=7
 
@@ -417,15 +417,15 @@ command! WToc :VimwikiTOC
 command! WTags :VimwikiRebuildTags
 
 
-if hostname() == "MD1KQAXC"
-    let g:vimwiki_list = [{'path': '/d/cloud/space/source/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}, {'path': '/d/cloud/space/siemens/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}]
-elseif hostname() =~ "chirm"
-    let g:vimwiki_list = [{'path': '~/cloud/space/source/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}, {'path': '~/cloud/space/siemens/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}]
-elseif hostname() =~ "ankh"
-    let g:vimwiki_list = [{'path': '~/cloud/space/source/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}, {'path': '~/cloud/space/siemens/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}]
-else
+"if hostname() == "MD1KQAXC"
+"    let g:vimwiki_list = [{'path': '/d/cloud/space/source/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}, {'path': '/d/cloud/space/siemens/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}]
+"elseif hostname() =~ "chirm"
+"    let g:vimwiki_list = [{'path': '~/cloud/space/source/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}, {'path': '~/cloud/space/siemens/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}]
+"elseif hostname() =~ "ankh"
+"    let g:vimwiki_list = [{'path': '~/cloud/space/source/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}, {'path': '~/cloud/space/siemens/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}]
+"else
     let g:vimwiki_list = [{'path': '~/cloud/space/source/', 'syntax': 'markdown', 'ext': '.mdw', 'auto_tags': 1}]
-endif
+"endif
 au BufNewFile,BufRead *.mdw set nowrap
 
 
@@ -625,8 +625,8 @@ endif
 
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon
 " detecting change
-set autoread
-au CursorHold * checktime
+"set autoread
+"au CursorHold * checktime
 
 set tabpagemax=50 " max number of pages
 

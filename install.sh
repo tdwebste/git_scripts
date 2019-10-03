@@ -27,9 +27,9 @@ if [ -d "$gitd/.git" ]; then
     mv ~/.gitconfig ~/.gitconfig.fb
     ln -s $gitd/.gitconfig ~/.gitconfig
     mv ~/.nvimrc ~/.nvimrc.fb
-    ln -s $gitd/.vimrc ~/.nvimrc
+    ln -s $gitd/.vimrc_vundle ~/.nvimrc
     mv ~/.vimrc ~/.vimrc.fb
-    ln -s $gitd/.vimrc ~/.vimrc
+    ln -s $gitd/.vimrc_vundle ~/.vimrc
     mv ~/.tmux.conf ~/.tmux.conf.fb
     ln -s $gitd/.tmux.conf ~/.tmux.conf
     mv ~/.gdbinit ~/.gdbinit.fb
@@ -40,16 +40,25 @@ if [ -d "$gitd/.git" ]; then
     done
 fi
 
+# https://idorobotics.com/2018/04/01/setting-up-vim-for-c-development/
 if [ -d "$HOME/.vim/bundle/Vundle.vim" ] ; then
     echo "vundle for vim already installed"
-else 
+else
     mkdir -p $HOME/.vim/bundle
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+    vim +PluginInstall +qall
+fi
+if [ -d "$HOME/.vim/bundle/YouCompleteMe" ] ; then
+    cd $HOME/.vim/bundle/
+    git clone https://github.com/ycm-core/YouCompleteMe.git
+    cd "$HOME/.vim/bundle/YouCompleteMe"
+    git submodule update --init --recursive
+    sudo apt install build-essential cmake python3-dev
+    ./install.py --clangd-completer
+
 fi
 
 cd $pw
 
-
-
-
+#
 
