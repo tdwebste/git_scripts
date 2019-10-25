@@ -222,8 +222,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
     alias pcregrep='pcregrep --color=auto'
-    alias bb="brazil-build"
-    alias bre='brazil-runtime-exec'
 fi
 alias git-greps="git branch -a | tr -d \* | sed '/->/d' | xargs git grep"
 
@@ -319,27 +317,11 @@ if [ -d /usr/local/cuda ]; then
     export PATH=/usr/local/cuda/bin:$PATH
 fi
 
-# Virtual Environment Wrapper
-if [ -e "/apollo/env/SDETools/bin" ]; then
-        export PATH="/apollo/env/SDETools/bin:$PATH"
-fi
-if [ -e /etc/brazilcli.env ]; then
-    export PATH=$BRAZIL_CLI_BIN:$PATH
-fi
-if [ -d $HOME/.toolbox/bin ]; then
-    export PATH=$HOME/.toolbox/bin:$PATH
-fi
-
 alias mark="pwd > ~/.sd"
 alias port='cd $(cat ~/.sd)'
 
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
-
-if [ -d $HOME/.rbenv/bin ]; then
-    export PATH=$HOME/.rbenv/bin:$PATH
-    eval "$(rbenv init -)"
-fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
