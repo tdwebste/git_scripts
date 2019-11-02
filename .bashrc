@@ -333,11 +333,6 @@ fi
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
 
-if [ -d $HOME/.rbenv/bin ]; then
-    export PATH=$HOME/.rbenv/bin:$PATH
-    eval "$(rbenv init -)"
-fi
-
 if uname -r | grep -q Microsoft; then
     export DISPLAY=localhost:0.0
 
