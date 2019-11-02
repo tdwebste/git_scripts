@@ -137,7 +137,7 @@ _git_repo_path() {
             fi
 
             subdir=$(timeout $PS1_DELAY git rev-parse --show-prefix 2>/dev/null)
-            subdir="${subdir%/}" 
+            subdir="${subdir%/}"
             predir="${PWD%/$subdir}"
             echo -ne "\033[01;34m~${predir#~}\033${c_rem}/${subdir}\033${c_stat}"
         else
@@ -317,9 +317,6 @@ if [ -d /usr/local/cuda ]; then
     export PATH=/usr/local/cuda/bin:$PATH
 fi
 
-alias mark="pwd > ~/.sd"
-alias port='cd $(cat ~/.sd)'
-
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
 
@@ -338,3 +335,17 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+if uname -r | grep -q Microsoft; then
+    export DISPLAY=localhost:0.0
+
+    wps1='/mnt/c/Windows/system32/tasklist.exe'
+    alias wps="$wps1"
+    xlaunch1="'/mnt/c/Program Files/VcXsrv/xlaunch.exe'"
+    alias xlaunch="$xlaunch1"
+    if $wps1 | grep 'vcxrv'; then
+        echo "runing X server"
+    else
+        echo "NOT running X server"
+        echo "xlaunch &"
+    fi
+fi
