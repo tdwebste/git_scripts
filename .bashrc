@@ -317,9 +317,6 @@ if [ -d /usr/local/cuda ]; then
     export PATH=/usr/local/cuda/bin:$PATH
 fi
 
-alias mark="pwd > ~/.sd"
-alias port='cd $(cat ~/.sd)'
-
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
 
