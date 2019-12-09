@@ -1,7 +1,10 @@
 #auto generate TARGET NAME
 #TARGET_EXEC ?= a.out
 # make CHIBIOS=~/src/ChibiOS print-CHIBIOS
-CHIBIOS := ${CHIBIOS}
+ifndef CHIBIOS
+    CHIBIOS = $$HOME/src/ChibiOS
+endif
+
 BUILD_DIR ?= ./build
 SRC_DIRS ?= $(shell ls -d src 2>/dev/null || echo '.')
 SRC_BASE ?= $(shell ls -d src || echo '')
