@@ -1,10 +1,12 @@
 #auto generate TARGET NAME
 #TARGET_EXEC ?= a.out
+# make CHIBIOS=~/src/ChibiOS print-CHIBIOS
+CHIBIOS := ${CHIBIOS}
 BUILD_DIR ?= ./build
 SRC_DIRS ?= $(shell ls -d src 2>/dev/null || echo '.')
 SRC_BASE ?= $(shell ls -d src || echo '')
 #SRC_DIRS ?= ./src
-TARGET_EXEC ?= $(shell ( grep -l 'int main' $(SRC_BASE)/*.c | sed -e 's#^src/##'  ))
+TARGET_EXEC ?= $(notdir $(shell grep -l 'int main' ${SRC_BASE}/*.c))
 
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
