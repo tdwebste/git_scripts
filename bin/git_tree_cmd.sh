@@ -3,6 +3,11 @@
 # quote patters "path*"
 # quote command "pwd;git branch | grep '*'"
 path="$1"
+if [ ! -d "$path" ]; then
+    echo "$0 path <\"script cmd\">"
+    echo "invalidpath: ${path}"
+    exit
+fi
 echo "path: $path"
 shift
 cmd0="$*"

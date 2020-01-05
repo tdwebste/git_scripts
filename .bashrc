@@ -349,3 +349,6 @@ if uname -r | grep -q Microsoft; then
         echo "xlaunch &"
     fi
 fi
+if [ -d $HOME/.local/bin ]; then
+    export PATH=~/.local/bin:"$PATH"
+fi
