@@ -5,7 +5,7 @@
 path="$1"
 if [ ! -d "$path" ]; then
     echo "$0 path <\"script cmd\">"
-    echo "invalidpath: ${path}"
+    echo "invalidpath: '${path}'"
     exit
 fi
 echo "path: $path"
