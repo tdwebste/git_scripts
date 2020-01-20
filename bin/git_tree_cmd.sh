@@ -6,7 +6,8 @@ path="$1"
 if [ ! -d "$path" ]; then
     echo "$0 path <\"script cmd\">"
     echo "invalidpath: '${path}'"
-    exit
+    echo "set path='.'"
+    path='.'
 fi
 echo "path: $path"
 shift
