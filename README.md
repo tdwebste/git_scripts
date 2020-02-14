@@ -4,7 +4,7 @@ git tips
 grep all branches
 ```
 git grep <regexp> $(git rev-list --all)
-alias grep_all="git branch -a | tr -d \* | sed '/->/d' | xargs git grep"
+alias grep_all="git branch -a | tr -d \* | sed '/->/d' | grep -v HEAD |xargs git grep"
 ```
 find file in all branches
 ```

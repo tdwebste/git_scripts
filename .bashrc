@@ -316,6 +316,9 @@ if [ -d /usr/local/cuda ]; then
     export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
     export PATH=/usr/local/cuda/bin:$PATH
 fi
+if [ -d /snap/bin ]; then
+    export PATH=/usr/snap/bin:$PATH
+fi
 
 EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
 export PATH=$PATH:$EXTPATH
