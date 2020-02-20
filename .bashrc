@@ -23,10 +23,6 @@ export HISTCONTROL=ignoreboth
 #export PATH=$PATH:~/nrf/nrfjprog
 #export PATH=~/bin:
 export PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-#export PATH=~/bin:$PATH #added by finding directories below ~/bin
-if [ -d /snap/bin ]; then
-    export PATH=$PATH:/snap/bin
-fi
 
 
 # append to the history file, don't overwrite it
@@ -187,10 +183,12 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+#what type of os
+source /usr/lib/os-release
 
 if [ "$color_prompt" = yes ]; then
     #excape \[ non pritable char \]
-    PS1='${debian_chroot:+($debian_chroot)}\[$(pt_user_co)\]\u\[\033[0m\]@\[$(pt_host_co)\]\h\[\033[0m\]:\[$(_git_repo_path)\]$(pt_git_co)\[\033[0m\]\$ '
+    PS1='$ID_LIKE ${debian_chroot:+($debian_chroot)}\[$(pt_user_co)\]\u\[\033[0m\]@\[$(pt_host_co)\]\h\[\033[0m\]:\[$(_git_repo_path)\]$(pt_git_co)\[\033[0m\]\$ '
 #    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n$(_git_repo)$(__git_ps1)\$ '
@@ -317,26 +315,8 @@ if [ -d /usr/local/cuda ]; then
     export PATH=/usr/local/cuda/bin:$PATH
 fi
 if [ -d /snap/bin ]; then
-    export PATH=/usr/snap/bin:$PATH
+    export PATH=/snap/bin:$PATH
 fi
-
-EXTPATH=$(find -L $HOME/bin -name 'bin' | tr '\n' ':')
-export PATH=$PATH:$EXTPATH
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/tdwebste/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/tdwebste/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/tdwebste/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/tdwebste/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 if uname -r | grep -q Microsoft; then
     export DISPLAY=localhost:0.0
@@ -352,6 +332,36 @@ if uname -r | grep -q Microsoft; then
         echo "xlaunch &"
     fi
 fi
+
+#export PATH=~/bin:$PATH #added by finding directories below ~/bin
+if [ -d $HOME/bin ]; then
+    # deepest path is last
+    EXTPATH=$(find -L $HOME/bin -depth -name 'bin' | tac|tr '\n' ':')
+    export PATH=$EXTPATH:$PATH
+fi
+
 if [ -d $HOME/.local/bin ]; then
     export PATH=~/.local/bin:"$PATH"
 fi
+
+
+
+# source intel compiler configuration
+if [ -f ~/.bashrc_intel ]; then
+    . ~/.bashrc_intel
+fi
+
+# >>> conda initialize >>>
+## !! Contents within this block are managed by 'conda init' !!
+#__conda_setup="$('/home/tdwebste/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    if [ -f "/home/tdwebste/anaconda3/etc/profile.d/conda.sh" ]; then
+#        . "/home/tdwebste/anaconda3/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/home/tdwebste/anaconda3/bin:$PATH"
+#    fi
+#fi
+#unset __conda_setup
+## <<< conda initialize <<<

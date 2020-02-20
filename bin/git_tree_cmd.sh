@@ -13,7 +13,7 @@ echo "path: $path"
 shift
 cmd0="$*"
 if [ -z "$cmd0" ]; then
-    cmd0="pwd;git branch |grep '*'"
+    cmd0="git branch |grep '*'"
 fi
 echo "cmd: $cmd0"
 ##exit
@@ -24,6 +24,11 @@ find $path -name '.git' -print -prune| while read dir; do
     path="${dir#./}"
     path="${path%/.git}"
     cd "$path"
-    echo
-    eval "$cmd0"
+
+    result="$(eval $cmd0)"
+    if [ -n "${result}" ]; then
+        echo
+        pwd
+        echo "$result"
+    fi
 done
