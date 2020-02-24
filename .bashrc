@@ -2,6 +2,69 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+function colorgrid_5( )
+{
+    iter=0
+    while [ $iter -lt 36 ]
+    do
+        second=$[$iter+36]
+        third=$[$second+36]
+        four=$[$third+36]
+        five=$[$four+36]
+        six=$[$five+36]
+        seven=$[$six+36]
+        if [ $seven -gt 250 ];then seven=$[$seven-251]; fi
+        echo -en "\033[38;5;$(echo $iter)m█ "
+        printf "%03d" $iter
+        echo -en "   \033[38;5;$(echo $second)m█ "
+        printf "%03d" $second
+        echo -en "   \033[38;5;$(echo $third)m█ "
+        printf "%03d" $third
+        echo -en "   \033[38;5;$(echo $four)m█ "
+        printf "%03d" $four
+        echo -en "   \033[38;5;$(echo $five)m█ "
+        printf "%03d" $five
+        echo -en "   \033[38;5;$(echo $six)m█ "
+        printf "%03d" $six
+        echo -en "   \033[38;5;$(echo $seven)m█ "
+        printf "%03d" $seven
+        iter=$[$iter+1]
+        printf '\r\n'
+    done
+}
+
+
+function colorgrid_1( )
+{
+#    iter=16
+    iter=0
+    while [ $iter -lt 10 ]
+    do
+        second=$[$iter+10]
+        third=$[$second+10]
+        four=$[$third+10]
+        five=$[$four+10]
+        if [ $five -gt 48 ];then five=$[$five-49]; fi
+        echo -en "\033[1;$(echo $iter)m█ "
+        printf "%03d" $iter
+        echo -en "\033[0m"
+        echo -en "   \033[1;$(echo $second)m█ "
+        printf "%03d" $second
+        echo -en "\033[0m"
+        echo -en "   \033[1;$(echo $third)m█ "
+        printf "%03d" $third
+        echo -en "\033[0m"
+        echo -en "   \033[1;$(echo $four)m█ "
+        printf "%03d" $four
+        echo -en "\033[0m"
+        echo -en "   \033[1;$(echo $five)m█ "
+        printf "%03d" $five
+        echo -en "\033[0m"
+        iter=$[$iter+1]
+        printf '\r\n'
+    done
+}
+
 # Source global definitions
 if [ -f /etc/bash.bashrc ]; then
     . /etc/bash.bashrc
@@ -95,7 +158,8 @@ _git_repo() {
             subdir=$(timeout $PS1_DELAY git rev-parse --show-prefix 2>/dev/null)
             subdir="${subdir%/}"
             predir="${PWD%/$subdir}"
-            echo -ne "${predir#~}/${subdir}"
+#            echo -ne "${predir#~}/${subdir}"
+            echo -ne "${predir}/${subdir}"
         else
             echo -ne ""
         fi
@@ -135,7 +199,8 @@ _git_repo_path() {
             subdir=$(timeout $PS1_DELAY git rev-parse --show-prefix 2>/dev/null)
             subdir="${subdir%/}"
             predir="${PWD%/$subdir}"
-            echo -ne "\033[01;34m~${predir#~}\033${c_rem}/${subdir}\033${c_stat}"
+  #          echo -ne "\033[01;34m~${predir#~}\033${c_rem}/${subdir}\033${c_stat}"
+            echo -ne "\033[01;34m${predir}\033${c_rem}/${subdir}\033${c_stat}"
         else
             echo -ne "\033[01;34m"
         fi
@@ -153,10 +218,12 @@ pt_git_co() {
                 printf "\n%s" "${branch}"
             fi
         else
-            printf "%s" "~${PWD#~}"
+#            printf "%s\n " "~${PWD#~}"
+            printf "%s\n " "${PWD}"
         fi
     else
-        printf "%s" "~${PWD#~}"
+#        printf "%s\n " "~${PWD#~}"
+        printf "%s\n " "${PWD}"
     fi
 }
 
@@ -188,7 +255,7 @@ source /usr/lib/os-release
 
 if [ "$color_prompt" = yes ]; then
     #excape \[ non pritable char \]
-    PS1='$ID_LIKE ${debian_chroot:+($debian_chroot)}\[$(pt_user_co)\]\u\[\033[0m\]@\[$(pt_host_co)\]\h\[\033[0m\]:\[$(_git_repo_path)\]$(pt_git_co)\[\033[0m\]\$ '
+    PS1='\[\033[38;5;213m\]${ID_LIKE} ${debian_chroot:+($debian_chroot)}\[$(pt_user_co)\]\u\[\033[0m\]@\[$(pt_host_co)\]\h\[\033[0m\]:\[$(_git_repo_path)\]$(pt_git_co)\[\033[0m\]\$ '
 #    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n$(_git_repo)$(__git_ps1)\$ '

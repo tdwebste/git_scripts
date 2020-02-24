@@ -4,5 +4,6 @@ if [ -d ~/intel ]; then
     # deepest path is last
     EXTPATH=$(find -L $HOME/intel -maxdepth 3 -depth -name 'bin' | tac| tr '\n' ':')
     export PATH=$EXTPATH:$PATH
+    source compilervars.sh intel64
 fi
 
