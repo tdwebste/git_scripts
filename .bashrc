@@ -411,7 +411,9 @@ if [ -d $HOME/.local/bin ]; then
     export PATH=~/.local/bin:"$PATH"
 fi
 
-
+if [ -f $HOME/.cargo/env ]; then
+    source $HOME/.cargo/env
+fi
 
 # source intel compiler configuration
 if [ -f ~/.bashrc_intel ]; then
