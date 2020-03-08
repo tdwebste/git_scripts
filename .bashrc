@@ -89,11 +89,12 @@ export PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/lo
 
 
 # append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=9999999999999000000
 HISTFILESIZE=900000000999999999
+#unset HISTSIZE
+#unset HISTFILESIZE
+shopt -s histappend
+
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -145,8 +146,8 @@ pt_host_co() {
         # ssh login purple
         echo -en "\033[1;35m"
     else
-        # nossh login blue
-        echo -en "\033[1;34m"
+        # nossh login yellow
+        echo -en "\033[1;33m"
     fi
 }
 
