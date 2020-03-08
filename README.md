@@ -37,7 +37,7 @@ Setup
 ```
 mkdir -p ~/src ~/bin; cd ~/src
 git clone https://github.com/tdwebste/git_scripts.git
-git clone https://github.com/git/git
+git clone https://github.com/git/git --depth 1 -b master
 
 cd ~
 ln -s ~/src/git_scripts/.bashrc
