@@ -2,6 +2,9 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+SCRIPT=$(readlink -f ${BASH_SOURCE[0]})
+SRCDIR="${SCRIPT%/git_scripts/.bashrc}"
+
 function colorgrid_5( )
 {
     iter=0
@@ -121,9 +124,9 @@ export GIT_PS1_SHOWUPSTREAM="auto"  # "<>" diverged and "=" no difference.
 export PS1_DELAY=1
 
 
-if [ -f $HOME/src/git_scripts/findbranch.sh ]; then
+if [ -f ${SRCDIR}/git_scripts/findbranch.sh ]; then
     _timed_git_ps1() {
-        timeout $PS1_DELAY $HOME/src/git_scripts/findbranch.sh
+        timeout $PS1_DELAY ${SRCDIR}/git_scripts/findbranch.sh
     }
 else
     _timed_git_ps1() {
@@ -405,7 +408,7 @@ fi
 if [ -d $HOME/bin ]; then
     # deepest path is last
     EXTPATH=$(find -L $HOME/bin -depth -name 'bin' | tac|tr '\n' ':')
-    export PATH=$EXTPATH:$PATH
+    export PATH=${EXTPATH}${PATH}
 fi
 
 if [ -d $HOME/.local/bin ]; then
@@ -435,3 +438,9 @@ fi
 #fi
 #unset __conda_setup
 ## <<< conda initialize <<<
+
+# Created by `userpath` on 2020-03-10 02:14:19
+
+if [ -d $HOME/.local/pipx/venvs ]; then
+    export PATH="$HOME/.local/pipx/venvs/python-dev-tools/bin:$PATH"
+fi

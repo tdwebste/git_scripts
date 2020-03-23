@@ -1,0 +1,66 @@
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-debian-10
+
+https://www.tensorflow.org/install
+
+No install necessary—run the TensorFlow tutorials directly in the browser with Colaboratory, a Google research project created to help disseminate machine learning education and research. It's a Jupyter notebook environment that requires no setup to use and runs entirely in the cloud. Read the blog post
+
+setup docker 
+https://dev.to/kojikanao/install-nvidia-docker-2-0-on-ubuntu-18-04-45gp
+
+sudo docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
+sudo docker run --runtime=nvidia  -u $(id -u):$(id -g) --rm nvidia/cuda nvidia-smi
+
+sudo docker run --runtime=nvidia -it tensorflow/tensorflow:latest-gpu bash
+sudo docker run --runtime=nvidia -u $(id -u):$(id -g) -it tensorflow/tensorflow:latest-gpu bash
+
+sudo docker run --runtime=nvidia -u $(id -u):$(id -g) -it --rm tensorflow/tensorflow:latest-gpu \
+   python -c "import tensorflow as tf; print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
+
+sudo docker run -u $(id -u):$(id -g) -it -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter  # Start Jupyter server 
+
+#py3 if nvidia gpu is not available
+docker run -it -p 8888:8888 tensorflow/tensorflow:latest-py3-jupyter  # Start Jupyter server 
+
+
+###################
+#install pytorch docker
+
+https://medium.com/@zaher88abd/pytorch-with-docker-b791edd67850
+
+https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/running.html
+
+sudo docker run --runtime=nvidia -u $(id -u):$(id -g) -it --rm nvcr.io/nvidia/pytorch:20.02-py3 bash
+
+
+
+docker commands
+https://linuxhint.com/list_docker_images/
+docker image list
+
+
+######################
+https://github.com/anibali/docker-pytorch
+
+sudo docker pull anibali/pytorch:cuda-10.1
+
+sudo docker run --rm -it --init --runtime=nvidia \
+  --ipc=host \
+  --user="$(id -u):$(id -g)" \
+  --volume="$PWD:/app" \
+  -e NVIDIA_VISIBLE_DEVICES=0 \
+  anibali/pytorch python3 main.py
+
+
+sudo docker run --rm -it --init --runtime=nvidia \
+  -e "DISPLAY" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+  anibali/pytorch python3 -c "import tkinter; tkinter.Tk().mainloop()"
+
+
+
+ conda install -c pytorch  magma-cuda102
+
+
+conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
+ 
+
+

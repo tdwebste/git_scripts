@@ -1,9 +1,10 @@
 # intel ipp compiler installed
 
-if [ -d ~/intel ]; then
+if [ -d $HOME/intel ]; then
     # deepest path is last
     EXTPATH=$(find -L $HOME/intel -maxdepth 3 -depth -name 'bin' | tac| tr '\n' ':')
-    export PATH=$EXTPATH:$PATH
+    export PATH=$HOME/intel:$EXTPATH$PATH
+  #  export PATH=$HOME/intel:$HOME/intel/bin:$PATH
     source compilervars.sh intel64
 fi
 
