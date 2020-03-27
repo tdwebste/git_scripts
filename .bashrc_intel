@@ -1,5 +1,10 @@
 # intel ipp compiler installed
 
+
+if [ -d /opt/intel ]; then
+    export PATH=/opt/intel:$PATH
+fi
+
 if [ -d $HOME/intel ]; then
     # deepest path is last
     EXTPATH=$(find -L $HOME/intel -maxdepth 3 -depth -name 'bin' | tac| tr '\n' ':')
