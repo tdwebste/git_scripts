@@ -424,6 +424,9 @@ if [ -f ~/.bashrc_intel ]; then
     . ~/.bashrc_intel
 fi
 
+# facebook and pytorch loves anaconda, I DO NOT
+# yet another enviroment makes it hard to integrate
+
 # >>> conda initialize >>>
 ## !! Contents within this block are managed by 'conda init' !!
 #__conda_setup="$('/home/tdwebste/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -440,6 +443,11 @@ fi
 ## <<< conda initialize <<<
 
 # Created by `userpath` on 2020-03-10 02:14:19
+
+#add all the strange opt directories
+if [ -d /opt/balenaEtcher ]; then
+    export PATH=/opt/balenaEtcher:$PATH
+fi
 
 if [ -d $HOME/.local/pipx/venvs ]; then
     export PATH="$HOME/.local/pipx/venvs/python-dev-tools/bin:$PATH"
