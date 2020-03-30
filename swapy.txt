@@ -1,0 +1,1 @@
+vm.swappiness=5 tee -a /etc/sysctl.conf

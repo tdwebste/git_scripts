@@ -1,0 +1,25 @@
+https://github.com/digint/btrbk/blob/master/doc/FAQ.md
+
+https://github.com/digint/btrbk
+
+https://btrfs.wiki.kernel.org/index.php/FAQ
+
+btrfs subvolume snapshot /backup/btr_pool /ROOTFS
+cd /backup_btr_pool
+btrfs subvolume list -p .
+btrfs subvolume set-default  ROOTFS/btr_pool /
+btrbk -c /etc/btrbk/btrbk.conf -v dryrun
+
+btrfs subvolume snapshot /home /home/HOME
+cd /home
+btrfs subvolume list -p .
+btrfs subvolume set-default  home /home
+btrbk -c /etc/btrbk/home.conf -v dryrun
+
+
+
+
+
+
+
+
