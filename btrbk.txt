@@ -7,19 +7,17 @@ https://btrfs.wiki.kernel.org/index.php/FAQ
 btrfs subvolume snapshot /backup/btr_pool /ROOTFS
 cd /backup_btr_pool
 btrfs subvolume list -p .
-# btrfs subvolume list -p .
-ID 304 gen 22399 parent 5 top level 5 path ROOTFS/btr_pool
-
-btrfs subvolume set-default  ROOTFS/btr_pool /
+//ID 304 gen 22399 parent 5 top level 5 path ROOTFS/btr_pool
+btrfs subvolume set-default  304 /
 btrfs subvolume show /
 btrbk -c /etc/btrbk/btrbk.conf -v dryrun
 
 btrfs subvolume snapshot /home /home/HOME
 cd /home
-# btrfs subvolume list -p .
-ID 384 gen 1180 parent 5 top level 5 path HOME/home
-debian root@asbeast:/home
- # btrfs subvolume set-default  384 /home
+btrfs subvolume list -p .
+//ID 384 gen 1180 parent 5 top level 5 path HOME/home
+btrfs subvolume set-default  384 /home
+btrfs subvolume show /
 btrbk -c /etc/btrbk/home.conf -v dryrun
 
 
