@@ -11,7 +11,7 @@ fi
 cmd="find $HOME/src/git -name '.git' -prune"
 if [ -z "$(eval $cmd)" ] ; then
     cd $HOME/src
-    git clone https://github.com/git/git
+    git clone https://github.com/git/git --depth 1
 fi
 
 gitd="$HOME/src/git_scripts"
