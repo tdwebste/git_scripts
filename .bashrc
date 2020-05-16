@@ -358,8 +358,11 @@ complete -o default -o nospace -F _git_checkout gco
 alias gco='git checkout'
 git config --global core.excludesfile "$HOME/.gitignore"
 git config --global user.name "Timothy D. Webster"
-if [ "$USER" == "tweb" ]; then
-    git config --global user.email "$USER@amazon.com"
+if [ "$USER" == "" ]; then #windows git-shell hack
+    USER=${HOME##*/}
+fi
+if [ "$USER" == "v-timweb" ]; then
+    git config --global user.email "$USER@microsoft.com"
 else
     git config --global user.email "$USER@gmail.com"
 fi
