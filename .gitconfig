@@ -6,12 +6,13 @@
 [push]
 	default = simple
 [alias]
+	go = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order --all
+	gof = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order
+	god = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order --all
+	godf = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order
 #	dagg = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
-	go = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --all --author-date-order
-	god = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --all --author-date-order
 	gbd = log --graph --simplify-by-decoration --pretty=format:'%C(yellow)%h%C(white)%d %C(bold black)%ai %C(reset)%n' --all
 	gb = log --graph --simplify-by-decoration --pretty=format:'%C(yellow)%h%C(white)%d %C(bold black)%ar %C(reset)%n' --all
-	g3 = log --pretty=format:"%Cgreen%h%Creset %ad %C(cyan)%an%Creset %s%C(red)%d%Creset" --graph --date=short
 	g5 = log --graph --abbrev-commit --decorate --all --format=format:\"%C(bold blue)%h%C(reset) %C(bold cyan)%aD%C(dim white) %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)\"
 	glong = log --stat --decorate --graph
 	logMerges = log --first-parent --graph
@@ -24,7 +25,7 @@
 	# https://salferrarello.com/using-vim-view-git-commits/
 	# View commit with K (upper case k)
 	vim = "!git log --graph --oneline --decorate --all --pretty=format:'%h %d %s <%an>' | vim -R -c \"set filetype=git nowrap\" -"
-	nvim = "!git log --graph --oneline --decorate --all --pretty=format:'%h %d %s <%an>' | nvim -R -c \"set filetype=git nowrap\" -"
+	gvim = "!git log --graph --oneline --decorate --all --pretty=format:'%h %d %s <%an>' | gvim -R -c \"set filetype=git nowrap\" -"
 
 	aliases = "!git config -l | grep alias | cut -c 7-"
 	lasttag = describe --tags --abbrev=0
@@ -42,4 +43,4 @@
 	autostash = true
 [user]
 	name = Timothy D. Webster
-	email = tdwebste@gmail.com
+	email = v-timweb@microsoft.com
