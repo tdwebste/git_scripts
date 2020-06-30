@@ -3,21 +3,26 @@
 # quote patters "path*"
 # quote command "pwd;git branch | grep '*'"
 path="$1"
+
 dirs=$(ls -d $path)
-echo "search dirs: $dirs"
 if [ -z "$dirs" ]; then
     echo "$0 path <\"script cmd\">"
     echo "invalidpath: '${path}'"
     echo "set path='.'"
     path='.'
 fi
-echo "path: $path"
+echo "path:
+$path"
+echo "search dirs:
+$dirs"
+
 shift
 cmd0="$*"
 if [ -z "$cmd0" ]; then
     cmd0="git branch |grep '*'"
 fi
-echo "cmd: $cmd0"
+echo "cmd:
+$cmd0"
 
 pw="$PWD"
 fcmd="find $path -name '.git' -print -prune"
