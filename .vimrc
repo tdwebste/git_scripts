@@ -15,8 +15,20 @@ else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
+if &diff
+     map gs :call IwhiteToggle()<CR>
+     function! IwhiteToggle()
+       if &diffopt =~ 'iwhite'
+         set diffopt-=iwhite
+       else
+         set diffopt+=iwhite
+       endif
+     endfunction
+endif
 
 
+set backupdir=~/vimtmp,~/tmp,.,c:/tmp
+set directory=~/vimtmp,~/tmp,.,c:/tmp
 set hlsearch
 set ignorecase
 set smartcase
