@@ -3,7 +3,9 @@
 # quote patters "path*"
 # quote command "pwd;git branch | grep '*'"
 path="$1"
-if [ ! -d "$path" ]; then
+dirs=$(ls -d $path)
+echo "search dirs: $dirs"
+if [ -z "$dirs" ]; then
     echo "$0 path <\"script cmd\">"
     echo "invalidpath: '${path}'"
     echo "set path='.'"
@@ -16,10 +18,10 @@ if [ -z "$cmd0" ]; then
     cmd0="git branch |grep '*'"
 fi
 echo "cmd: $cmd0"
-##exit
 
 pw="$PWD"
-find $path -name '.git' -print -prune| while read dir; do
+fcmd="find $path -name '.git' -print -prune"
+eval "$fcmd" | while read dir; do
     cd "$pw"
     path="${dir#./}"
     path="${path%/.git}"
