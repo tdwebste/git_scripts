@@ -1,0 +1,6 @@
+https://github.com/bryansteiner/gpu-passthrough-tutorial/
+
+https://heiko-sieger.info/running-windows-10-on-linux-using-kvm-with-vga-passthrough/
+
+https://www.microsoft.com/en-us/software-download/windows10ISO
+https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio
