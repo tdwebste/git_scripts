@@ -1,3 +1,10 @@
+disable touchpad
+===============
+
+xinput list | grep -i touch
+xinput disable 16
+xinput enable 16
+
 git tips
 =======
 

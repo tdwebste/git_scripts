@@ -415,11 +415,14 @@ if [ -d $HOME/bin ]; then
 fi
 
 if [ -d $HOME/.local/bin ]; then
-    export PATH=~/.local/bin:"$PATH"
+    export PATH=$HOME/.local/bin:"$PATH"
 fi
 
 if [ -f $HOME/.cargo/env ]; then
     source $HOME/.cargo/env
+fi
+if [ -d $HOME/.cargo/bin ]; then
+    export PATH=$HOME/.cargo/bin:"$PATH"
 fi
 
 # source intel compiler configuration
