@@ -361,8 +361,8 @@ git config --global user.name "Timothy D. Webster"
 if [ "$USER" == "" ]; then #windows git-shell hack
     USER=${HOME##*/}
 fi
-if [ "$USER" == "v-timweb" ]; then
-    git config --global user.email "$USER@microsoft.com"
+if echo $USERNAME | grep -q '^v-t' ; then
+    git config --global user.email "$USERNAME@microsoft.com"
 else
     git config --global user.email "$USER@gmail.com"
 fi
