@@ -2,9 +2,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-SCRIPT=$(readlink -f ${BASH_SOURCE[0]})
-SRCDIR="${SCRIPT%/git_scripts/.bashrc}"
-
 function colorgrid_5( )
 {
     iter=0
@@ -79,6 +76,17 @@ case $- in
       *) return;;
 esac
 
+
+if uname -r | grep -q Microsoft; then
+    SRCDIR="${HOME}/src"
+else
+    SCRIPT=$(readlink -f ${BASH_SOURCE[0]})
+    SRCDIR="${SCRIPT%/git_scripts/.bashrc}"
+    export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+    #what type of os
+    source /usr/lib/os-release
+fi
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 #export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
@@ -88,7 +96,6 @@ export HISTCONTROL=ignoreboth
 #switch path order to select local autoconf or system autoconf
 #export PATH=$PATH:~/nrf/nrfjprog
 #export PATH=~/bin:
-export PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
 
 # append to the history file, don't overwrite it
@@ -129,6 +136,8 @@ if [ -f ${SRCDIR}/git_scripts/findbranch.sh ]; then
         timeout $PS1_DELAY ${SRCDIR}/git_scripts/findbranch.sh
     }
 else
+    echo "findbranch failed"
+    echo "$SRCDIR"
     _timed_git_ps1() {
         time __git_ps1
     }
@@ -254,8 +263,6 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-#what type of os
-source /usr/lib/os-release
 
 if [ "$color_prompt" = yes ]; then
     #excape \[ non pritable char \]
