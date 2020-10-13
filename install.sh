@@ -40,6 +40,8 @@ if [ -d "$gitd/.git" ]; then
     done
 fi
 
+exit
+
 # https://idorobotics.com/2018/04/01/setting-up-vim-for-c-development/
 if [ -d "$HOME/.vim/bundle/Vundle.vim" ] ; then
     echo "vundle for vim already installed"

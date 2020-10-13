@@ -2,6 +2,30 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+
+# Source global definitions
+if [ -f /etc/bash.bashrc ]; then
+    . /etc/bash.bashrc
+fi
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+
+if uname -a | grep -q Linux; then
+    SCRIPT=$(readlink -f ${BASH_SOURCE[0]})
+    SRCDIR="${SCRIPT%/git_scripts/.bashrc}"
+    export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+    #what type of os
+    source /usr/lib/os-release
+else
+    SRCDIR="${HOME}/src"
+fi
+
+
 function colorgrid_5( )
 {
     iter=0
@@ -65,28 +89,6 @@ function colorgrid_1( )
     done
 }
 
-# Source global definitions
-if [ -f /etc/bash.bashrc ]; then
-    . /etc/bash.bashrc
-fi
-
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
-
-
-if uname -r | grep -q Microsoft; then
-    SRCDIR="${HOME}/src"
-else
-    SCRIPT=$(readlink -f ${BASH_SOURCE[0]})
-    SRCDIR="${SCRIPT%/git_scripts/.bashrc}"
-    export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-    #what type of os
-    source /usr/lib/os-release
-fi
-
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 #export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
@@ -136,7 +138,7 @@ if [ -f ${SRCDIR}/git_scripts/findbranch.sh ]; then
         timeout $PS1_DELAY ${SRCDIR}/git_scripts/findbranch.sh
     }
 else
-    echo "findbranch failed"
+    echo "findbranch: not found"
     echo "$SRCDIR"
     _timed_git_ps1() {
         time __git_ps1
@@ -399,7 +401,9 @@ if [ -d /snap/bin ]; then
     export PATH=/snap/bin:$PATH
 fi
 
-if uname -r | grep -q Microsoft; then
+if uname -a | grep -q Linux; then
+    echo ""
+else
     export DISPLAY=localhost:0.0
 
     wps1='/mnt/c/Windows/system32/tasklist.exe'
