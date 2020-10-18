@@ -11,7 +11,8 @@ git tips
 grep all branches
 ```
 git grep <regexp> $(git rev-list --all)
-alias grep_all="git branch -a | tr -d \* | sed '/->/d' | grep -v HEAD |xargs git grep"
+git rev-list --all | GIT_PAGER=cat xargs git grep '<pattern>'
+
 git grep '"Build"' $(git rev-list --all -- 'build_version.json')  -- 'build_version.json' | sort -n -k3
 
 ```
