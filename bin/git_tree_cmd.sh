@@ -34,10 +34,14 @@ eval "$fcmd" | while read dir; do
         cd "$path"
     fi
 
-    result="$(eval $cmd0)"
+    result="$(2>&1 eval $cmd0)"
+    status=$?
     if [ -n "${result}" ]; then
         echo
         pwd
+        if [ $status != 0 ]; then
+            echo "ERROR: $status"
+        fi
         echo "$result"
     fi
 done
