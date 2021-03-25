@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# quote patters "path*"
-# quote command "pwd;git branch | grep '*'"
+# quote patterns "path*"
+# quote command "git branch | grep '*'"
 path="$1"
 
 dirs=$(ls -d $path)
@@ -29,8 +29,10 @@ fcmd="find $path -name '.git' -print -prune"
 eval "$fcmd" | while read dir; do
     cd "$pw"
     path="${dir#./}"
-    path="${path%/.git}"
-    cd "$path"
+    if [ "$path" != ".git" ]; then
+        path="${path%/.git}"
+        cd "$path"
+    fi
 
     result="$(eval $cmd0)"
     if [ -n "${result}" ]; then
