@@ -1,34 +1,25 @@
 set nocompatible
-""execute pathogen#infect()
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+"call vundle#begin('~/some/path/here')
+Plugin 'google/vim-maktaba'
+Plugin 'google/vim-codefmt'
+Plugin 'google/vim-glaive'
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+"Plugin 'Valloric/YouCompleteMe'
+
+" Keep Plugin commands between vundle#begin/end.
+call vundle#end()
+
 syntax on
 filetype indent plugin on
 
 set history=500
 set wildmenu
 set showcmd
-
-" Ignore compiled files
-set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*
-else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
-
-if &diff
-     map gs :call IwhiteToggle()<CR>
-     function! IwhiteToggle()
-       if &diffopt =~ 'iwhite'
-         set diffopt-=iwhite
-       else
-         set diffopt+=iwhite
-       endif
-     endfunction
-endif
-
-
-set backupdir=~/vimtmp,~/tmp,.,c:/tmp
-set directory=~/vimtmp,~/tmp,.,c:/tmp
 set hlsearch
 set ignorecase
 set smartcase
@@ -75,7 +66,6 @@ set notimeout ttimeout ttimeoutlen=200
 " Use <F11> to toggle between 'paste' and 'nopaste'
 set pastetoggle=<F11>
 
-"------------------------------------------------------------
 set smartindent
 set shiftwidth=4
 set softtabstop=4
@@ -84,60 +74,47 @@ set expandtab
 " four characters wide.
 "set tabstop=4
 
-" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
-" which is the default
-"map Y y$
 
-" Map <C-L> (redraw screen) to also turn off search highlighting until the
-" next search
+
+call glaive#Install()
+" Optional: Enable codefmt's default mappings on the <Leader>= prefix.
+Glaive codefmt plugin[mappings]
+
+augroup autoformat_settings
+  autocmd FileType bzl AutoFormatBuffer buildifier
+  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  autocmd FileType dart AutoFormatBuffer dartfmt
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType gn AutoFormatBuffer gn
+  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer yapf
+  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+  autocmd FileType vue AutoFormatBuffer prettier
+augroup END
+
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
 nnoremap <C-L> :nohl<CR><C-L>
 
 let acp_enableAtStartup=0
 
-" pathogen install
-" mkdir -p ~/.vim/autoload ~/.vim/bundle && \
-" curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-"
-" synastic install
-" cd ~/.vim/bundle && \
-" git clone --depth=1 https://github.com/vim-syntastic/syntastic.git
-"
-" SuperTab install
-" cd ~/.vim/bundle && \
-" git clone --depth=1 https://github.com/ervandew/supertab.git
-"
-" Tagbar install
-" cd ~/.vim/bundle && \
-" git clone --depth=1 git clone git://github.com/majutsushi/tagbar
-"
-" install universal-ctags
-" git clone https://github.com/universal-ctags/ctags.git
-" cd ctags
-" ./autogen.sh
-" ./configure
-" make
-" sudo make install
-"
-" synastic settings
-
-"" if installed pathogen then uncomment below
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-"
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-
-
 command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
 
-"nnoremap <silent> <F3> :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR>
 
-"nnoremap <silent> <F4> :redir >>matches.tmp<CR>:g//<CR>:redir END<CR>:new matches.tmp<CR>
-":redir @a         redirect output to register a
-":%g/OpenSSH 7.2p2/-3,. p
-":redir END        end redirection
-":new              create new window
-":put! a           paste register a into new window
+" set foldmethod=syntax
+hi Folded ctermbg=black
+map <C-]> :YcmCompleter GoToImprecise<CR>
+let g:ycm_enable_diagnostic_signs = 1
+highlight YcmErrorLine ctermfg=White cterm=bold
+
+
+
+
