@@ -35,7 +35,7 @@ case "${args[${i}]}" in
             cmd0="${args[${i}]}"
         fi
         cmd0="${args[${i}]}"
-        echo "base submodule"
+        echo "submodule Root"
         fcmd="find $path -name '.gitmodules' -print -prune"
         gpaths=$(eval "$fcmd" | while read dir; do
             cd "$pw"
@@ -57,6 +57,7 @@ case "${args[${i}]}" in
         done)
         ;;
     *)
+        cmd0="${args[${i}]}"
         echo "Default"
         fcmd="find $path -name '.git' -print -prune"
         gpaths=$(eval "$fcmd" | while read dir; do
