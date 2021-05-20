@@ -56,6 +56,25 @@ case "${args[${i}]}" in
             fi
         done)
         ;;
+    #all git repos with .gitmodules
+    -a)
+        if (( i<$ELEMENTS )); then
+            ((i++))
+            cmd0="${args[${i}]}"
+        fi
+        cmd0="${args[${i}]}"
+        echo "All submodules"
+        fcmd="find $path -name '.gitmodules' -print -prune"
+        gpaths=$(eval "$fcmd" | while read dir; do
+            cd "$pw"
+            path="${dir#./}"
+            if [ "$path" != ".gitmodules" ]; then
+                path="${path%/.gitmodules}"
+                cd "$path"
+            fi
+            pwd
+        done)
+        ;;
     *)
         cmd0="${args[${i}]}"
         echo "Default"
