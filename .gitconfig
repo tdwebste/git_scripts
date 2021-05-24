@@ -2,14 +2,29 @@
 	ui = auto
 [core]
 	pager = less -FMRiX
-	excludesfile = /home/tdwebste/.gitignore
+	excludesfile = C:/Users/v-timotw/.gitignore
+	eol = lf
+#	autocrlf = false
 [push]
 	default = simple
 [alias]
+	aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+	lasttag = describe --tags --abbrev=0
+        subup = submodule update --jobs 8 --init --recursive
+        subpr = !showsubpr.sh $1
+	pu = pull --recurse-submodule
+        #show the commits in most recent time order
 	go = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order --all
-	gof = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order
+        #follow commits from a commit
+	gof = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit
+	gofs = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset' --decorate --abbrev-commit
+        #show the commits detail long sha in most recent time order
 	god = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order --all
-	godf = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order
+        #follow commits detail long sha from a commit
+        godf = log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order
+        ll = --oneline --name-status
+
+
 #	dagg = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
 	gbd = log --graph --simplify-by-decoration --pretty=format:'%C(yellow)%h%C(white)%d %C(bold black)%ai %C(reset)%n' --all
 	gb = log --graph --simplify-by-decoration --pretty=format:'%C(yellow)%h%C(white)%d %C(bold black)%ar %C(reset)%n' --all
@@ -27,10 +42,15 @@
 	vim = "!git log --graph --oneline --decorate --all --pretty=format:'%h %d %s <%an>' | vim -R -c \"set filetype=git nowrap\" -"
 	gvim = "!git log --graph --oneline --decorate --all --pretty=format:'%h %d %s <%an>' | gvim -R -c \"set filetype=git nowrap\" -"
 
-	aliases = "!git config -l | grep alias | cut -c 7-"
-	lasttag = describe --tags --abbrev=0
+	mcu-push = "!f(){ git fetch $2 && git subtree push --prefix=$1 $2 $3; };f"
+	mcu-pull-2019 = "!f(){ git subtree pull --prefix=$1 $2 product/CHAMP/RTM --squash; };f"
+	mcu-pull = "!f(){ git subtree pull --prefix=$1 $2 master --squash; };f"
+	mcu-push-all = "!f(){ git mcu-push OS repoOS $1 ; git mcu-push Platform repoPlatform $1; git mcu-push Utilities repoUtilities $1; git mcu-push Application repoApplication $1; git mcu-push Bootloader repoBootloader $1; git mcu-push Build repoBuild $1; };f"
+	mcu-pull-all = "!f(){ git mcu-pull OS repoOS ; git mcu-pull Platform repoPlatform ; git mcu-pull Utilities repoUtilities ; git mcu-pull Application repoApplication ; git mcu-pull Bootloader repoBootloader ; git mcu-pull Build repoBuild; };f"
+	mcu-pull-all-2019 = "!f(){ git mcu-pull-2019 OS repoOS ; git mcu-pull-2019 Platform repoPlatform ; git mcu-pull-2019 Utilities repoUtilities ; git mcu-pull-2019 Application repoApplication ; git mcu-pull-2019 Bootloader repoBootloader ; git mcu-pull-2019 Build repoBuild; };f"
 [diff]
 	tool = gvimdiff
+	submodule = log
 [difftool]
 	prompt = false
 [merge]
@@ -43,4 +63,4 @@
 	autostash = true
 [user]
 	name = Timothy D. Webster
-	email = tdwebste@gmail.com
+	email = v-timotw@microsoft.com
