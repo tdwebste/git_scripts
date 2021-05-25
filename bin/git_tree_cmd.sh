@@ -2,6 +2,7 @@
 
 # quote patterns "path*"
 # quote command "git branch | grep '*'"
+
 path="$1"
 
 dirs=$(ls -d $path)
@@ -20,10 +21,10 @@ shift
 args=("$@")
 ELEMENTS=${#args[@]}
 
-echo "$ELEMENTS input arguments"
-for (( i=0;i<$ELEMENTS;i++)); do
-    echo ${args[${i}]}
-done
+#echo "$ELEMENTS input arguments"
+#for (( i=0;i<$ELEMENTS;i++)); do
+#    echo ${args[${i}]}
+#done
 
 pw="$PWD"
 i=0
@@ -92,7 +93,7 @@ case "${args[${i}]}" in
 esac
 
 if [ -z "$cmd0" ]; then
-    cmd0="git branch |grep '*'"
+    cmd0="git branch -a |grep -F '*'"
 fi
 echo "cmd:
 $cmd0"

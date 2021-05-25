@@ -8,4 +8,4 @@ ELEMENTS=${#args[@]}
 
 i=0
 sha1="${args[${i}]}"
-git show $sha1 | sed -e 's/PR \([0-9]*\).*/!\1/'
+git show $sha1 | sed -e 's/PR \([0-9]*\).*/!\1/' -e 's/>/->/' -e 's/</<-/'
