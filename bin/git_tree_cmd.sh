@@ -4,8 +4,8 @@
 # quote command "git branch | grep '*'"
 
 path="$1"
-
-dirs=$(ls -d $path)
+cmd="ls -d $path"
+dirs=$(eval "$cmd")
 if [ -z "$dirs" ]; then
     echo "$0 path <\"script cmd\">"
     echo "invalidpath: '${path}'"
@@ -16,6 +16,7 @@ echo "path:
 $path"
 echo "search dirs:
 $dirs"
+echo
 
 shift
 args=("$@")
@@ -92,8 +93,9 @@ case "${args[${i}]}" in
         ;;
 esac
 
+cmdbr="git branch -a |grep -F '*'"
 if [ -z "$cmd0" ]; then
-    cmd0="git branch -a |grep -F '*'"
+    cmd0="$cmdbr"
 fi
 echo "cmd:
 $cmd0"
@@ -106,6 +108,9 @@ echo "$gpaths" | while read dir; do
     if [ -n "${result}" ]; then
         echo
         pwd
+        if [ "$cmd0" != "$cmdbr" ]; then
+            eval $cmdbr
+        fi
         if [ $status != 0 ]; then
             echo "ERROR: $status"
         fi
