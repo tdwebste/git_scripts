@@ -3,7 +3,7 @@
 # in bash functions global variables are often prefered over function text output
 # Not capturing function text output, execution is more robust
 
-# Global var are a good practic for powershell for the same reason
+# Global var are a good practice for powershell for the same reason
 ### GLOBAL VARS ###
 gpaths=()
 
@@ -90,12 +90,36 @@ function gitsubmoduleroots() {
     echo "Number: $GELEMENTS"
 }
 
+#global cmd0 cmdbr
+function execgit() {
+    local result="$(2>&1 eval $cmd0)"
+    local status=$?
+    local rtnstr
+    if [ -n "${result}" ]; then
+        rtnstr="
+$PWD"
+        if [ "$cmd0" != "$cmdbr" ]; then
+            rtnstr="$rtnstr
+    $(eval $cmdbr)"
+        fi
+        if [ $status != 0 ]; then
+            rtnstr="$rtnstr
+ERROR: $status"
+        fi
+        rtnstr="$rtnstr
+$result"
+        echo "$rtnstr"
+    fi
+}
+
+### MAIN ###
+
 path="$1"
 cmd="ls -d $path"
 dirs=$(eval "$cmd")
 if [ -z "$dirs" ]; then
-    usage
     echo "invalidpath: '${path}'"
+    usage
     echo "set path='.'"
     path='.'
 fi
@@ -157,12 +181,12 @@ case "${args[${i}]}" in
         echo "Number: $GELEMENTS"
         ;;
     #all git repos
-    '')
+    *)
         cmd0="${args[${i}]}"
         allgitrepos
         ;;
     #usage
-    *)
+   -h)
         usage
         ;;
 esac
@@ -182,17 +206,6 @@ for (( i=0; i < $GELEMENTS; i++ )); do
     dir="${gpaths[${i}]}"
     cd "$dir"
 
-    result="$(2>&1 eval $cmd0)"
-    status=$?
-    if [ -n "${result}" ]; then
-        echo
-        pwd
-        if [ "$cmd0" != "$cmdbr" ]; then
-            eval $cmdbr
-        fi
-        if [ $status != 0 ]; then
-            echo "ERROR: $status"
-        fi
-        echo "$result"
-    fi
+    execgit &
 done
+wait
