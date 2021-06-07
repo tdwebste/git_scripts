@@ -3,11 +3,78 @@
 # quote patterns "path*"
 # quote command "git branch | grep '*'"
 
+
+
+# in bash functions global variables are often prefered over function text output
+# Not capturing function text output, execution is more robust
+
+# Global var are a good practic for powershell for the same reason
+### GLOBAL VARS ###
+gpaths=()
+
+
+#global gpaths
+function allgitrepos() {
+    echo "All git repos"
+    local fcmd="find $path -name '.git' -print -prune"
+    gpaths=( $(eval "$fcmd" | while read dir; do
+        cd "$pw"
+        path="${dir#./}"
+        if [ "$path" != ".git" ]; then
+            path="${path%/.git}"
+            cd "$path"
+        fi
+        pwd
+    done) )
+
+}
+
+#global gpaths
+function allgitsubmodules() {
+    echo "All submodules"
+    local fcmd="find $path -name '.gitmodules' -print -prune"
+    gpaths=( $(eval "$fcmd" | while read dir; do
+        cd "$pw"
+        path="${dir#./}"
+        if [ "$path" != ".gitmodules" ]; then
+            path="${path%/.gitmodules}"
+            cd "$path"
+        fi
+        pwd
+        cmd="awk '/path/ { printf \"$PWD/%s\n\", \$NF }' .gitmodules"
+        eval "$cmd"
+    done | sort | uniq) )
+}
+
+#global gpaths
+function gitsubmoduleroots() {
+    echo "submodule Root"
+    local fcmd="find $path -name '.gitmodules' -print -prune"
+    gpaths=( $(eval "$fcmd" | while read dir; do
+        cd "$pw"
+        path="${dir#./}"
+        if [ "$path" != ".gitmodules" ]; then
+            path="${path%/.gitmodules}"
+            cd "$path"
+        fi
+        if [ -z "$ipath" ]; then
+            ipath=$PWD
+            pwd
+        else
+            cmd="echo \${PWD#${ipath}/}"
+            if [ "$PWD" == $(eval "$cmd") ]; then
+                ipath=$PWD
+                pwd
+            fi
+        fi
+    done) )
+}
+
 path="$1"
 cmd="ls -d $path"
 dirs=$(eval "$cmd")
 if [ -z "$dirs" ]; then
-    echo "$0 path <\"script cmd\">"
+    usage
     echo "invalidpath: '${path}'"
     echo "set path='.'"
     path='.'
@@ -30,66 +97,49 @@ ELEMENTS=${#args[@]}
 pw="$PWD"
 i=0
 case "${args[${i}]}" in
-    #main git repo, not git submodules
+    #git submodule root repos, not git submodules
     -m)
         if (( i<$ELEMENTS )); then
             ((i++))
             cmd0="${args[${i}]}"
         fi
         cmd0="${args[${i}]}"
-        echo "submodule Root"
-        fcmd="find $path -name '.gitmodules' -print -prune"
-        gpaths=$(eval "$fcmd" | while read dir; do
-            cd "$pw"
-            path="${dir#./}"
-            if [ "$path" != ".gitmodules" ]; then
-                path="${path%/.gitmodules}"
-                cd "$path"
-            fi
-            if [ -z "$ipath" ]; then
-                ipath=$PWD
-                pwd
-            else
-                cmd="echo \${PWD#${ipath}/}"
-                if [ "$PWD" == $(eval "$cmd") ]; then
-                    ipath=$PWD
-                    pwd
-                fi
-            fi
-        done)
+        gitsubmoduleroots
         ;;
-    #all git repos with .gitmodules
+    #all git submodule repos
     -a)
         if (( i<$ELEMENTS )); then
             ((i++))
             cmd0="${args[${i}]}"
         fi
         cmd0="${args[${i}]}"
-        echo "All submodules"
-        fcmd="find $path -name '.gitmodules' -print -prune"
-        gpaths=$(eval "$fcmd" | while read dir; do
-            cd "$pw"
-            path="${dir#./}"
-            if [ "$path" != ".gitmodules" ]; then
-                path="${path%/.gitmodules}"
-                cd "$path"
-            fi
-            pwd
-        done)
+        allgitsubmodules
+        ;;
+    #NOT! git submodule repos
+    -n)
+        if (( i<$ELEMENTS )); then
+            ((i++))
+            cmd0="${args[${i}]}"
+        fi
+        cmd0="${args[${i}]}"
+        allgitrepos
+        GELEMENTS=${#gpaths[@]}
+        echo "Number: $GELEMENTS"
+        all_gpaths=("${gpaths[@]}")
+
+        allgitsubmodules
+        GELEMENTS=${#gpaths[@]}
+        echo "Number: $GELEMENTS"
+        submodule_gpaths=("${gpaths[@]}")
+
+        echo "NOT git submodule repos"
+        gpaths=( $(printf '%s\n' "${all_gpaths[@]}" "${submodule_gpaths[@]}" | sort | uniq -u))
+        GELEMENTS=${#gpaths[@]}
+        echo "Number: $GELEMENTS"
         ;;
     *)
         cmd0="${args[${i}]}"
-        echo "Default"
-        fcmd="find $path -name '.git' -print -prune"
-        gpaths=$(eval "$fcmd" | while read dir; do
-            cd "$pw"
-            path="${dir#./}"
-            if [ "$path" != ".git" ]; then
-                path="${path%/.git}"
-                cd "$path"
-            fi
-            pwd
-        done)
+        allgitrepos
         ;;
 esac
 
@@ -100,7 +150,13 @@ fi
 echo "cmd:
 $cmd0"
 
-echo "$gpaths" | while read dir; do
+GELEMENTS=${#gpaths[@]}
+#echo "gpaths: $GELEMENTS: " ${gpaths[@]}
+
+
+#echo "$gpaths" | while read dir; do
+for (( i=0; i < $GELEMENTS; i++ )); do
+    dir="${gpaths[${i}]}"
     cd $dir
 
     result="$(2>&1 eval $cmd0)"
