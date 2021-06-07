@@ -12,8 +12,17 @@
 ### GLOBAL VARS ###
 gpaths=()
 
+function usage() {
+    echo "$0 <path> <option> <\"script cmd\">"
+    echo "path: file glob pattern"
+    echo "option: '' All git repos
+        -a All git submodule repos
+        -m git submodule Root repo
+        -n NOT git submodule repo"
+    echo "\"script cmd\": script ran in each git repo"
+}
 
-#global gpaths
+#global gpaths pw
 function allgitrepos() {
     echo "All git repos"
     local fcmd="find $path -name '.git' -print -prune"
@@ -29,7 +38,7 @@ function allgitrepos() {
 
 }
 
-#global gpaths
+#global gpaths pw
 function allgitsubmodules() {
     echo "All submodules"
     local fcmd="find $path -name '.gitmodules' -print -prune"
@@ -46,10 +55,11 @@ function allgitsubmodules() {
     done | sort | uniq) )
 }
 
-#global gpaths
+#global gpaths pw
 function gitsubmoduleroots() {
     echo "submodule Root"
     local fcmd="find $path -name '.gitmodules' -print -prune"
+    local ipath
     gpaths=( $(eval "$fcmd" | while read dir; do
         cd "$pw"
         path="${dir#./}"
