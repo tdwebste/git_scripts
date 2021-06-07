@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# quote patterns "path*"
-# quote command "git branch | grep '*'"
-
-
-
 # in bash functions global variables are often prefered over function text output
 # Not capturing function text output, execution is more robust
 
@@ -27,6 +22,8 @@ function usage() {
 function allgitrepos() {
     echo "All git repos"
     local fcmd="find $path -name '.git' -print -prune"
+    local ifs="$IFS"
+    IFS=$'\n'
     gpaths=( $(eval "$fcmd" | while read dir; do
         cd "$pw"
         path="${dir#./}"
@@ -36,13 +33,17 @@ function allgitrepos() {
         fi
         pwd
     done) )
-
+    IFS="$ifs"
+    GELEMENTS=${#gpaths[@]}
+    echo "Number: $GELEMENTS"
 }
 
 #global gpaths pw
 function allgitsubmodules() {
     echo "All submodules"
     local fcmd="find $path -name '.gitmodules' -print -prune"
+    local ifs="$IFS"
+    IFS=$'\n'
     gpaths=( $(eval "$fcmd" | while read dir; do
         cd "$pw"
         path="${dir#./}"
@@ -54,6 +55,9 @@ function allgitsubmodules() {
         cmd="awk '/path/ { printf \"$PWD/%s\n\", \$NF }' .gitmodules"
         eval "$cmd"
     done | sort | uniq) )
+    IFS="$ifs"
+    GELEMENTS=${#gpaths[@]}
+    echo "Number: $GELEMENTS"
 }
 
 #global gpaths pw
@@ -61,6 +65,8 @@ function gitsubmoduleroots() {
     echo "submodule Root"
     local fcmd="find $path -name '.gitmodules' -print -prune"
     local ipath
+    local ifs="$IFS"
+    IFS=$'\n'
     gpaths=( $(eval "$fcmd" | while read dir; do
         cd "$pw"
         path="${dir#./}"
@@ -79,6 +85,9 @@ function gitsubmoduleroots() {
             fi
         fi
     done) )
+    IFS="$ifs"
+    GELEMENTS=${#gpaths[@]}
+    echo "Number: $GELEMENTS"
 }
 
 path="$1"
@@ -134,18 +143,17 @@ case "${args[${i}]}" in
         fi
         cmd0="${args[${i}]}"
         allgitrepos
-        GELEMENTS=${#gpaths[@]}
-        echo "Number: $GELEMENTS"
         all_gpaths=("${gpaths[@]}")
 
         allgitsubmodules
-        GELEMENTS=${#gpaths[@]}
-        echo "Number: $GELEMENTS"
         submodule_gpaths=("${gpaths[@]}")
 
         echo "NOT git submodule repos"
+        ifs="$IFS"
+        IFS=$'\n'
         gpaths=( $(printf '%s\n' "${all_gpaths[@]}" "${submodule_gpaths[@]}" | sort | uniq -u))
         GELEMENTS=${#gpaths[@]}
+        IFS="$ifs"
         echo "Number: $GELEMENTS"
         ;;
     #all git repos
@@ -167,13 +175,12 @@ echo "cmd:
 $cmd0"
 
 GELEMENTS=${#gpaths[@]}
-#echo "gpaths: $GELEMENTS: " ${gpaths[@]}
+#echo "gpaths: $GELEMENTS: " "${gpaths[@]}"
 
 
-#echo "$gpaths" | while read dir; do
 for (( i=0; i < $GELEMENTS; i++ )); do
     dir="${gpaths[${i}]}"
-    cd $dir
+    cd "$dir"
 
     result="$(2>&1 eval $cmd0)"
     status=$?
