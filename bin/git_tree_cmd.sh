@@ -18,8 +18,10 @@ function usage() {
     echo "option: '' All git repos
         -a All git submodule repos
         -m git submodule Root repo
-        -n NOT git submodule repo"
+        -n NOT git submodule repo
+        -h usage"
     echo "\"script cmd\": script ran in each git repo"
+    exit
 }
 
 #global gpaths pw
@@ -107,6 +109,10 @@ ELEMENTS=${#args[@]}
 pw="$PWD"
 i=0
 case "${args[${i}]}" in
+    #usage
+    -h)
+        usage
+        ;;
     #git submodule root repos, not git submodules
     -m)
         if (( i<$ELEMENTS )); then
