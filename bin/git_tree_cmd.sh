@@ -18,7 +18,7 @@ function usage() {
     exit
 }
 
-#global gpaths pw
+#global gpaths pw path
 function allgitrepos() {
     echo "All git repos"
     local fcmd="find $path -name '.git' -print -prune"
@@ -38,7 +38,7 @@ function allgitrepos() {
     echo "Number: $GELEMENTS"
 }
 
-#global gpaths pw
+#global gpaths pw path
 function allgitsubmodules() {
     echo "All submodules"
     local fcmd="find $path -name '.gitmodules' -print -prune"
@@ -60,7 +60,7 @@ function allgitsubmodules() {
     echo "Number: $GELEMENTS"
 }
 
-#global gpaths pw
+#global gpaths pw path
 function gitsubmoduleroots() {
     echo "submodule Root"
     local fcmd="find $path -name '.gitmodules' -print -prune"
@@ -176,8 +176,8 @@ case "${args[${i}]}" in
         ifs="$IFS"
         IFS=$'\n'
         gpaths=( $(printf '%s\n' "${all_gpaths[@]}" "${submodule_gpaths[@]}" | sort | uniq -u))
-        GELEMENTS=${#gpaths[@]}
         IFS="$ifs"
+        GELEMENTS=${#gpaths[@]}
         echo "Number: $GELEMENTS"
         ;;
     #all git repos
