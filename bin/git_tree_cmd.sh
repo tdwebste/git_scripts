@@ -75,7 +75,7 @@ function gitsubmoduleroots() {
             cd "$path"
         fi
         if [ -z "$ipath" ]; then
-            ipath=$PWD
+            ipath="$PWD"
             pwd
         else
             cmd="echo \${PWD#${ipath}/}"
