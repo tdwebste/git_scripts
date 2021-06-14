@@ -7,6 +7,7 @@
 ### GLOBAL VARS ###
 gpaths=()
 
+scriptname=$(basename $0)
 function usage() {
     echo "$0 <path> <option> <\"script cmd\">"
     echo "path: file glob pattern"
@@ -95,6 +96,7 @@ function execgit() {
     local result="$(2>&1 eval $cmd0)"
     local status=$?
     local rtnstr
+    local outfile="$1"
     if [ -n "${result}" ]; then
         rtnstr="
 $PWD"
@@ -108,7 +110,7 @@ ERROR: $status"
         fi
         rtnstr="$rtnstr
 $result"
-        echo "$rtnstr"
+        echo "$rtnstr" > "$outfile"
     fi
 }
 
@@ -202,10 +204,17 @@ GELEMENTS=${#gpaths[@]}
 #echo "gpaths: $GELEMENTS: " "${gpaths[@]}"
 
 
+tmpfiles=()
 for (( i=0; i < $GELEMENTS; i++ )); do
     dir="${gpaths[${i}]}"
     cd "$dir"
 
-    execgit &
+    tmpfile=/tmp/$scriptname.$$.$i.tmp
+    tmpfiles+=("${tmpfile}")
+    execgit $tmpfile &
 done
 wait
+
+cmd="cat ${tmpfiles[@]} && rm ${tmpfiles[@]}"
+eval "$cmd"
+
