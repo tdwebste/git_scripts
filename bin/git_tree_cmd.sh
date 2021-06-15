@@ -110,6 +110,7 @@ ERROR: $status"
         fi
         rtnstr="$rtnstr
 $result"
+      #  echo "$rtnstr"
         echo "$rtnstr" > "$outfile"
     fi
 }
@@ -204,18 +205,18 @@ GELEMENTS=${#gpaths[@]}
 #echo "gpaths: $GELEMENTS: " "${gpaths[@]}"
 
 tmpfiles=()
+tmpfilebase="/tmp/$scriptname.$$."
 for (( i=0; i < $GELEMENTS; i++ )); do
     dir="${gpaths[${i}]}"
     cd "$dir"
 
-    tmpfile=/tmp/$scriptname.$$.$i.tmp
+    tmpfile="${tmpfilebase}${i}.tmp"
     tmpfiles+=("${tmpfile}")
     execgit $tmpfile &
 done
 wait
 
-cmd="ls ${tmpfiles[@]}"
-outflist=$(eval "$cmd" 2>/dev/null)
+outflist=$(echo "${tmpfilebase}*.tmp")
 ocmd="cat $outflist && rm $outflist"
 #echo "$ocmd"
 eval "$ocmd"
