@@ -6,8 +6,8 @@
 # Global var are a good practice for powershell for the same reason
 ### GLOBAL VARS ###
 gpaths=()
-
 scriptname=$(basename $0)
+
 function usage() {
     echo "$0 <path> <option> <\"script cmd\">"
     echo "path: file glob pattern"
@@ -203,7 +203,6 @@ $cmd0"
 GELEMENTS=${#gpaths[@]}
 #echo "gpaths: $GELEMENTS: " "${gpaths[@]}"
 
-
 tmpfiles=()
 for (( i=0; i < $GELEMENTS; i++ )); do
     dir="${gpaths[${i}]}"
@@ -215,6 +214,9 @@ for (( i=0; i < $GELEMENTS; i++ )); do
 done
 wait
 
-cmd="cat ${tmpfiles[@]} && rm ${tmpfiles[@]}"
-eval "$cmd"
+cmd="ls ${tmpfiles[@]}"
+outflist=$(eval "$cmd" 2>/dev/null)
+ocmd="cat $outflist && rm $outflist"
+#echo "$ocmd"
+eval "$ocmd"
 
