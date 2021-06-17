@@ -12,7 +12,9 @@
 	lasttag = describe --tags --abbrev=0
         subup = submodule update --jobs 8 --init --recursive
         subpr = !showsubpr.sh $1
-	pu = pull --recurse-submodule
+        subfor = submodule foreach --recursive
+        pu = pull --recurse-submodule
+	ck = checkout --recurse-submodule
         #show the commits in most recent time order
 	go = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold black)%ci %C(bold blue)%ae <%an>%Creset' --decorate --abbrev-commit --author-date-order --all
         #follow commits from a commit

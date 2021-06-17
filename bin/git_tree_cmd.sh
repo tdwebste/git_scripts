@@ -204,14 +204,14 @@ $cmd0"
 GELEMENTS=${#gpaths[@]}
 #echo "gpaths: $GELEMENTS: " "${gpaths[@]}"
 
-tmpfiles=()
+#tmpfiles=()
 tmpfilebase="/tmp/$scriptname.$$."
 for (( i=0; i < $GELEMENTS; i++ )); do
     dir="${gpaths[${i}]}"
     cd "$dir"
 
     tmpfile="${tmpfilebase}${i}.tmp"
-    tmpfiles+=("${tmpfile}")
+#    tmpfiles+=("${tmpfile}")
     execgit $tmpfile &
 done
 wait
