@@ -11,7 +11,8 @@
 	aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 	lasttag = describe --tags --abbrev=0
 	subup = submodule update --jobs 8 --init --recursive
-	subpr = !showsubpr.sh $1
+        subpr = !showsubpr.sh $1
+        subst = submodule status --recursive
 	subfor = submodule foreach --recursive
 	pu = pull --recurse-submodule
 	ck = checkout --recurse-submodule

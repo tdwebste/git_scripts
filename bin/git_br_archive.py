@@ -59,7 +59,7 @@ class ArchRepo:
             print(f'\nINVALID branch Regex "{remote_branch_pat}"')
             is_found = False
         os.chdir(self.root_path)
-        return (is_found, branch)
+        return (is_found, self.repo.active_branch)
 
 
 
@@ -68,36 +68,61 @@ class ArchRepo:
         #print(f'\n{self.repo_name}')
         #print(f'checkout {branch}')
         try:
-         #   self.repo.git.stash('save')
             self.repo.git.checkout(branch, force=True)
+            self.repo.git.pull()
         except Exception as e:
             print(e.args)
             is_found = False
         return is_found
 
-    def branch_store(self, start:str, end:str, ref_br:str):
+    def branch_store(self, start:str, branch:str, repo_ref):
         #print(f'Repo Path: {self.repo_path} Type: {type(self.repo_path)}')
         os.chdir(self.repo_path)
-        commit_range = f'{start}..{end}'
+        ref_br = repo_ref.name
+        ref_commit = repo_ref.commit
+
+        commit_range = f'{start}..{branch}'
         store_path = f'../arch/{self.repo_name}/{self.branch}'
         patchlist = subprocess.run(['git', 'format-patch', commit_range, '-o', store_path], capture_output = True)
+        if patchlist.returncode != 0:
+            print(patchlist.stderr, flush = True)
+            print(patchlist)
+
+        commit_diff = f'{ref_br}..{branch}'
+        ref_br_name = ref_br.replace('/','_')
+        branch_path_name = f'--output={store_path}/{ref_br_name}.branch-diff'
+        branchdiff = subprocess.run(['git', 'diff', commit_diff, branch_path_name], capture_output = True)
+        if branchdiff.returncode != 0:
+            print(branchdiff.stderr, flush = True)
+            print(branchdiff)
+
+        commit_diff = f'{ref_br}...{branch}'
+        branch_path_name = f'--output={store_path}/{ref_br_name}.merge-base-diff'
+        branchdiff = subprocess.run(['git', 'diff', commit_diff, branch_path_name], capture_output = True)
+        if branchdiff.returncode != 0:
+            print(branchdiff.stderr, flush = True)
+            print(branchdiff)
+
         finfo = open(f'../arch/{self.repo_name}/branch_info.txt', "a")
-        finfo.write( f'merge-base: {start} of {end}\tand\t{ref_br}\n')
-        print(f'merge-base: {start} of {end} and {ref_br}')
+        finfo.write(f'patch list from merge-base at: {start} of      {branch} and {ref_br}\n')
+        finfo.write(f'merge-base-diff            at: {start} between {ref_br} and {branch}\n')
+        finfo.write(f'branch-diff                at: {ref_commit} between {ref_br} and {branch}\n')
+        print(f'patch list from merge-base at: {start} of      {branch} and {ref_br}')
+        print(f'merge-base-diff            at: {start} between {ref_br} and {branch}')
+        print(f'branch-diff                at: {ref_commit} between {ref_br} and {branch}')
 
         os.chdir(self.root_path)
 
-
-    def branch_base(self, branch, ref) -> bool:
+    def branch_base(self, branch:str, repo_ref) -> bool:
         is_found = True
         try:
-            br_base = self.repo.git.merge_base(branch, ref)
+            br_base = self.repo.git.merge_base(branch, repo_ref.name)
         except Exception as e:
             #print(e.args)
             is_found = False
             #print(f'merge-base: FAILED of {branch} and {ref}', flush = True)
         else:
-            self.branch_store(br_base, branch, ref)
+            self.branch_store(br_base, branch, repo_ref)
 
         return is_found
 
@@ -113,7 +138,7 @@ class ArchRepo:
         if len(self.br_arch[self.repo_pre]) != 0:
             #print(f'Suppresion branches {self.repo_pre}')
             #pprint.pprint(self.br_supr[self.repo_pre])
-            print(f'detached branches {self.repo_pre}')
+            print(f'detached branches {self.repo_pre}', flush = True)
             pprint.pprint(self.br_arch[self.repo_pre])
 
 
@@ -137,7 +162,7 @@ class ArchRepo:
                     self.repo_pre = self.repo_name
                     self.repo_name = row[2]
                     self.repo_remote = f'https://dev.azure.com/{row[0]}/{row[1]}/_git/{row[2]}'
-                    self.ref_br = row[3]
+                    ref_br = row[3]
                     action = f'{row[5]}'
                     match = re.search(r'refs/heads/(.*)', row[4])
                     self.init_repo()
@@ -149,7 +174,7 @@ class ArchRepo:
 
                     match_arch = self.regex_arch.findall(action)
                     match_supr = self.regex_supr.findall(action)
-                    print(f'\n{self.repo_name}\t{branch}')
+                    #print(f'\n{self.repo_name}\t{branch}')
                     if match_supr:
                         supr_count += 1
                         self.br_supr[self.repo_name].append(branch)
@@ -157,13 +182,14 @@ class ArchRepo:
                         arch_count += 1
                         self.branch = branch
                         self.get_repo()
-                        #print(f'\n{self.repo_name}')
-                        (success, self.branch) =  self.is_branch(self.branch)
+                        print(f'\n{self.repo_name}')
+                        (success, repo_branch) =  self.is_branch(self.branch)
                         if success:
-                            #print(f'active: {self.repo.active_branch}')
-                            (success, self.ref_br) = self.is_branch(self.ref_br)
-                            if not self.branch_base(self.branch, self.ref_br):
-                                self.br_arch[self.repo_name].append(self.branch)
+                            print(f'active: {repo_branch.commit} {repo_branch.name}')
+                            (success, repo_ref_br) = self.is_branch(ref_br)
+                            print(f'active: {repo_ref_br.commit} {repo_ref_br.name}')
+                            if not self.branch_base(repo_branch.name, repo_ref_br):
+                                self.br_arch[self.repo_name].append(repo_branch.name)
                         else:
                             print(f'Branch NOT_FOUND: {self.branch}')
             print(f'Processed {line_count}, Archived {arch_count}, Suppresed {supr_count} lines.')
