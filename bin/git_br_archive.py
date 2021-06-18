@@ -75,28 +75,21 @@ class ArchRepo:
             is_found = False
         return is_found
 
-    def branch_store(self, start:str, branch:str, repo_ref):
-        #print(f'Repo Path: {self.repo_path} Type: {type(self.repo_path)}')
+    def branch_patch(self, start:str, branch:str, repo_ref):
         os.chdir(self.repo_path)
+
         ref_br = repo_ref.name
         ref_commit = repo_ref.commit
 
         commit_range = f'{start}..{branch}'
-        store_path = f'../arch/{self.repo_name}/{self.branch}'
+        store_path = f'../arch/{self.repo_name}/{branch}'
         patchlist = subprocess.run(['git', 'format-patch', commit_range, '-o', store_path], capture_output = True)
         if patchlist.returncode != 0:
             print(patchlist.stderr, flush = True)
             print(patchlist)
 
-        commit_diff = f'{ref_br}..{branch}'
-        ref_br_name = ref_br.replace('/','_')
-        branch_path_name = f'--output={store_path}/{ref_br_name}.branch-diff'
-        branchdiff = subprocess.run(['git', 'diff', commit_diff, branch_path_name], capture_output = True)
-        if branchdiff.returncode != 0:
-            print(branchdiff.stderr, flush = True)
-            print(branchdiff)
-
         commit_diff = f'{ref_br}...{branch}'
+        ref_br_name = ref_br.replace('/','_')
         branch_path_name = f'--output={store_path}/{ref_br_name}.merge-base-diff'
         branchdiff = subprocess.run(['git', 'diff', commit_diff, branch_path_name], capture_output = True)
         if branchdiff.returncode != 0:
@@ -105,13 +98,35 @@ class ArchRepo:
 
         finfo = open(f'../arch/{self.repo_name}/branch_info.txt', "a")
         finfo.write(f'patch list from merge-base at: {start} of      {branch} and {ref_br}\n')
-        finfo.write(f'merge-base-diff            at: {start} between {ref_br} and {branch}\n')
-        finfo.write(f'branch-diff                at: {ref_commit} between {ref_br} and {branch}\n')
+        finfo.write(f'merge-base-diff            at: {start} between {branch} and {ref_br}\n')
         print(f'patch list from merge-base at: {start} of      {branch} and {ref_br}')
-        print(f'merge-base-diff            at: {start} between {ref_br} and {branch}')
-        print(f'branch-diff                at: {ref_commit} between {ref_br} and {branch}')
+        print(f'merge-base-diff            at: {start} between {branch} and {ref_br}')
 
         os.chdir(self.root_path)
+
+    def branch_diff(self, branch:str, repo_ref):
+        os.chdir(self.repo_path)
+
+        ref_br = repo_ref.name
+        ref_commit = repo_ref.commit
+
+        commit_diff = f'{ref_br}..{branch}'
+        ref_br_name = ref_br.replace('/','_')
+        store_path = f'../arch/{self.repo_name}/{branch}'
+        if not os.path.exists(store_path):
+            os.makedirs(store_path)
+        branch_path_name = f'--output={store_path}/{ref_br_name}.branch-diff'
+        branchdiff = subprocess.run(['git', 'diff', commit_diff, branch_path_name], capture_output = True)
+        if branchdiff.returncode != 0:
+            print(branchdiff.stderr, flush = True)
+            print(branchdiff)
+
+        finfo = open(f'../arch/{self.repo_name}/branch_info.txt', "a")
+        finfo.write(f'branch-diff                at: {ref_commit} between {branch} and {ref_br}\n')
+        print(f'branch-diff                at: {ref_commit} between {branch} and {ref_br}')
+
+        os.chdir(self.root_path)
+
 
     def branch_base(self, branch:str, repo_ref) -> bool:
         is_found = True
@@ -122,19 +137,22 @@ class ArchRepo:
             is_found = False
             #print(f'merge-base: FAILED of {branch} and {ref}', flush = True)
         else:
-            self.branch_store(br_base, branch, repo_ref)
+            self.branch_patch(br_base, branch, repo_ref)
+        finally:
+            self.branch_diff(branch, repo_ref)
 
         return is_found
 
 
-    def dangling_branch(self):
-        for detach in self.br_arch[self.repo_pre]:
-            for ref in self.br_supr[self.repo_pre]:
-                (success, ref) = self.is_branch(ref)
-                if success:
-                    if self.branch_base(detach, ref):
-                        self.br_arch[self.repo_pre].remove(detach)
-                        break
+    def dangling_branch(self, search = False):
+        if search:
+            for detach in self.br_arch[self.repo_pre]:
+                for ref in self.br_supr[self.repo_pre]:
+                    (success, ref) = self.is_branch(ref)
+                    if success:
+                        if self.branch_base(detach, ref):
+                            self.br_arch[self.repo_pre].remove(detach)
+                            break
         if len(self.br_arch[self.repo_pre]) != 0:
             #print(f'Suppresion branches {self.repo_pre}')
             #pprint.pprint(self.br_supr[self.repo_pre])
@@ -180,25 +198,24 @@ class ArchRepo:
                         self.br_supr[self.repo_name].append(branch)
                     elif match_arch:
                         arch_count += 1
-                        self.branch = branch
                         self.get_repo()
                         print(f'\n{self.repo_name}')
-                        (success, repo_branch) =  self.is_branch(self.branch)
+                        (success, repo_branch) =  self.is_branch(branch)
                         if success:
-                            print(f'active: {repo_branch.commit} {repo_branch.name}')
+                            #print(f'active: {repo_branch.commit} {repo_branch.name}')
                             (success, repo_ref_br) = self.is_branch(ref_br)
-                            print(f'active: {repo_ref_br.commit} {repo_ref_br.name}')
+                            #print(f'active: {repo_ref_br.commit} {repo_ref_br.name}')
                             if not self.branch_base(repo_branch.name, repo_ref_br):
                                 self.br_arch[self.repo_name].append(repo_branch.name)
                         else:
-                            print(f'Branch NOT_FOUND: {self.branch}')
+                            print(f'Branch NOT_FOUND: {branch}')
             print(f'Processed {line_count}, Archived {arch_count}, Suppresed {supr_count} lines.')
 
     def init_repo(self):
         if not self.repo_pre == self.repo_name:
             #print(f'Init repo branch list Prev: "{self.repo_pre}" Current: "{self.repo_name}"')
             if not self.repo_pre == '':
-                self.dangling_branch()
+                self.dangling_branch(search = False)
             self.br_supr[self.repo_name] = []
             self.br_arch[self.repo_name] = []
 
@@ -234,8 +251,6 @@ class ArchRepo:
 if __name__ == "__main__":
     max_count = 1000
 
-#    user_input = input("Input regex:")  # check console, it is expecting your input
-#    print("\nUser typed: '{}'. Input type: {}.".format(user_input, type(user_input)))
     csv_name = 'CredScanReport.csv'
 
     archrepo = ArchRepo(csv_name)
