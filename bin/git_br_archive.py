@@ -35,6 +35,7 @@ class ArchRepo:
         is_found = True
         #print(f'Repo Path: {self.repo_path} Type: {type(self.repo_path)}')
         os.chdir(self.repo_path)
+
         branchlist = subprocess.run(['git', 'branch', '-a'], capture_output = True)
         #print(f'branchlist Type: {type(branchlist.stdout.decode())}')
         #pprint.pprint(branchlist.stdout.decode())
@@ -58,6 +59,7 @@ class ArchRepo:
         else:
             print(f'\nINVALID branch Regex "{remote_branch_pat}"')
             is_found = False
+
         os.chdir(self.root_path)
         return (is_found, self.repo.active_branch)
 
@@ -91,7 +93,7 @@ class ArchRepo:
         commit_diff = f'{ref_br}...{branch}'
         ref_br_name = ref_br.replace('/','_')
         branch_path_name = f'--output={store_path}/{ref_br_name}.merge-base-diff'
-        branchdiff = subprocess.run(['git', 'diff', commit_diff, branch_path_name], capture_output = True)
+        branchdiff = subprocess.run(['git', 'diff', '--full-index', commit_diff, branch_path_name], capture_output = True)
         if branchdiff.returncode != 0:
             print(branchdiff.stderr, flush = True)
             print(branchdiff)
@@ -116,7 +118,7 @@ class ArchRepo:
         if not os.path.exists(store_path):
             os.makedirs(store_path)
         branch_path_name = f'--output={store_path}/{ref_br_name}.branch-diff'
-        branchdiff = subprocess.run(['git', 'diff', commit_diff, branch_path_name], capture_output = True)
+        branchdiff = subprocess.run(['git', 'diff', '--full-index', commit_diff, branch_path_name], capture_output = True)
         if branchdiff.returncode != 0:
             print(branchdiff.stderr, flush = True)
             print(branchdiff)
