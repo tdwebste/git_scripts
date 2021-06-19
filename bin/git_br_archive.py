@@ -85,7 +85,7 @@ class ArchRepo:
 
         commit_range = f'{start}..{branch}'
         store_path = f'../arch/{self.repo_name}/{branch}'
-        patchlist = subprocess.run(['git', 'format-patch', commit_range, '-o', store_path], capture_output = True)
+        patchlist = subprocess.run(['git', 'format-patch', '--full-index', commit_range, '-o', store_path], capture_output = True)
         if patchlist.returncode != 0:
             print(patchlist.stderr, flush = True)
             print(patchlist)
