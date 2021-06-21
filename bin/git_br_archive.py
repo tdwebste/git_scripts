@@ -253,7 +253,7 @@ class ArchRepo:
 if __name__ == "__main__":
     max_count = 1000
 
-    csv_name = 'CredScanReport.csv'
+    csv_name = '*.csv'
 
     archrepo = ArchRepo(csv_name)
     archrepo.archive(max_count)
