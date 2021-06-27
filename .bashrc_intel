@@ -5,11 +5,15 @@ if [ -d /opt/intel ]; then
     export PATH=/opt/intel:$PATH
 fi
 
-if [ -d $HOME/intel ]; then
+intel_home=~tdwebste/intel
+
+if [ -d $intel_home ]; then
     # deepest path is last
-    EXTPATH=$(find -L $HOME/intel -maxdepth 3 -depth -name 'bin' | tac| tr '\n' ':')
-    export PATH=$HOME/intel:$EXTPATH$PATH
-  #  export PATH=$HOME/intel:$HOME/intel/bin:$PATH
+    cd ~tdwebste
+    EXTPATH=$(find -L $intel_home -maxdepth 3 -depth -name 'bin' | tac| tr '\n' ':')
+    export PATH=$intel_home:$EXTPATH$PATH
+    #export PATH=$intel_home:$intel_home/bin:$PATH
     source compilervars.sh intel64
+    #echo $PATH
 fi
 

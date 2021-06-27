@@ -2,7 +2,7 @@
 	ui = auto
 [core]
 	pager = less -FMRiX
-	excludesfile = C:/Users/v-timotw/.gitignore
+	excludesfile = /home/tdwebste/.gitignore
 	eol = lf
 #	autocrlf = false
 [push]
@@ -63,4 +63,4 @@
 	autostash = true
 [user]
 	name = Timothy D. Webster
-	email = v-timotw@microsoft.com
+	email = tdwebste@gmail.com
