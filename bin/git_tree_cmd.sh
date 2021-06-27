@@ -6,6 +6,7 @@
 # Global var are a good practice for powershell for the same reason
 ### GLOBAL VARS ###
 gpaths=()
+scriptname=$(basename $0)
 
 function usage() {
     echo "$0 <path> <option> <\"script cmd\">"
@@ -95,6 +96,7 @@ function execgit() {
     local result="$(2>&1 eval $cmd0)"
     local status=$?
     local rtnstr
+    local outfile="$1"
     if [ -n "${result}" ]; then
         rtnstr="
 $PWD"
@@ -108,7 +110,8 @@ ERROR: $status"
         fi
         rtnstr="$rtnstr
 $result"
-        echo "$rtnstr"
+      #  echo "$rtnstr"
+        echo "$rtnstr" > "$outfile"
     fi
 }
 
@@ -201,11 +204,20 @@ $cmd0"
 GELEMENTS=${#gpaths[@]}
 #echo "gpaths: $GELEMENTS: " "${gpaths[@]}"
 
-
+#tmpfiles=()
+tmpfilebase="/tmp/$scriptname.$$."
 for (( i=0; i < $GELEMENTS; i++ )); do
     dir="${gpaths[${i}]}"
     cd "$dir"
 
-    execgit &
+    tmpfile="${tmpfilebase}${i}.tmp"
+#    tmpfiles+=("${tmpfile}")
+    execgit $tmpfile &
 done
 wait
+
+outflist=$(echo "${tmpfilebase}*.tmp")
+ocmd="cat $outflist && rm $outflist"
+#echo "$ocmd"
+eval "$ocmd"
+
