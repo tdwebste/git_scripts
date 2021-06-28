@@ -12,7 +12,7 @@ import argparse
 
 
 class ArchRepo:
-    def __init__(self, csv_name = 'CredScanReport.csv', ):
+    def __init__(self, csv_name = 'Report.csv', ):
         self.csv_name = csv_name
         self.pat_arch = 'Delete but keep the history'
         self.pat_supr = 'Add Suppression files'
@@ -265,11 +265,11 @@ class ArchRepo:
 
     def init_suppress(self):
         os.chdir(self.repo_path)
-        credscan_init = subprocess.run(['powershell', 'c:\Tools\guardian\guardian.cmd', 'init'], capture_output = True)
-        if credscan_init.returncode != 0:
-            print(credscan_init.stderr.decode(), flush = True)
+        scan_init = subprocess.run(['powershell', 'c:\Tools\guardian\guardian.cmd', 'init'], capture_output = True)
+        if scan_init.returncode != 0:
+            print(scan_init.stderr.decode(), flush = True)
             print(f'\n')
-            print(credscan_init)
+            print(scan_init)
         os.chdir(self.root_path)
 
     def branch_suppress(self, branch:str):
@@ -277,19 +277,19 @@ class ArchRepo:
         if success:
             os.chdir(self.repo_path)
             #print(f'save branch in csv {os.getcwd()}')
-            credscan = subprocess.run(['powershell', 'c:\Tools\guardian\guardian.cmd', 'run', '-t', 'Credscan' ], capture_output = True)
-            if credscan.returncode != 0:
-                print(credscan.stderr, flush = True)
+            scan = subprocess.run(['powershell', 'c:\Tools\guardian\guardian.cmd', 'run', '-t', 'Credscan' ], capture_output = True)
+            if scan.returncode != 0:
+                print(scan.stderr, flush = True)
             else:
-                #match_supr_detect = self.regex_supr_detect.match(credscan.stdout.decode())
-                match_supr_detect = self.regex_supr_detect.findall(credscan.stdout.decode())
+                #match_supr_detect = self.regex_supr_detect.match(scan.stdout.decode())
+                match_supr_detect = self.regex_supr_detect.findall(scan.stdout.decode())
                 if not match_supr_detect is None:
-                    #print(credscan.stdout.decode())
+                    #print(scan.stdout.decode())
                     #print(match_supr_detect.groups())
                     print(match_supr_detect, flush = True)
                 else:
                     print(f'NO MATCH\n\n')
-                    print(credscan.stdout.decode(), flush = True)
+                    print(scan.stdout.decode(), flush = True)
 
         os.chdir(self.root_path)
 
@@ -318,8 +318,8 @@ class ArchRepo:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-f', action='store', dest='csv_name', type=str, default='CredScanReport.csv',
-                    help='CredScanReport.csv file')
+    parser.add_argument('-f', action='store', dest='csv_name', type=str, default='Report.csv',
+                    help='Report.csv file')
 
     parser.add_argument('-c', action='store', dest='count', type=int, default=1000,
                     help='Number of branches to process')
