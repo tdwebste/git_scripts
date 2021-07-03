@@ -265,7 +265,7 @@ class ArchRepo:
 
     def init_suppress(self):
         os.chdir(self.repo_path)
-        scan_init = subprocess.run(['powershell', 'c:\Tools\guardian\guardian.cmd', 'init'], capture_output = True)
+        scan_init = subprocess.run(['powershell', 'c:\Tools\', 'init'], capture_output = True)
         if scan_init.returncode != 0:
             print(scan_init.stderr.decode(), flush = True)
             print(f'\n')
@@ -277,7 +277,7 @@ class ArchRepo:
         if success:
             os.chdir(self.repo_path)
             #print(f'save branch in csv {os.getcwd()}')
-            scan = subprocess.run(['powershell', 'c:\Tools\guardian\guardian.cmd', 'run', '-t', 'Credscan' ], capture_output = True)
+            scan = subprocess.run(['powershell', 'c:\Tools\', 'run', '-t', '' ], capture_output = True)
             if scan.returncode != 0:
                 print(scan.stderr, flush = True)
             else:
