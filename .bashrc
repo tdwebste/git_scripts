@@ -385,7 +385,7 @@ fi
 #https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 eval "$(ssh-agent -s)"
 if [ -f ~/.ssh/id_dsa_github ]; then
-    ssh-add ~/.ssh/id_dsa_github
+    ssh-add ~/.ssh/id_ed25519.pub
 fi
 ssh-add ~/.ssh/*_rsa
 

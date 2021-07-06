@@ -50,7 +50,7 @@ if [ "$1" = "." ]; then
         if [ -f "${tagFile}" ]; then
                 cmd="${cmd} -newer ${tagFile}"
         fi
-        echo "$cmd"
+        echo "${cmd}"
         eval "$cmd" > $tmpFile
         putDir="${git_root}"
 elif [ "$1" = "sys" ]; then
