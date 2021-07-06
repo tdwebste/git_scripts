@@ -14,7 +14,8 @@ function usage() {
     echo "option: '' All git repos
         -a All git submodule repos
         -m git submodule Root repo
-        -n NOT git submodule repo"
+        -n NOT git submodule repo
+        -t top git tree or submodule repo"
     echo "\"script cmd\": script ran in each git repo"
     exit
 }
@@ -91,6 +92,36 @@ function gitsubmoduleroots() {
     echo "Number: $GELEMENTS"
 }
 
+#global gpaths pw path
+function gitroots() {
+    echo "Root"
+    local fcmd="find $path -name '.git' -print -prune"
+    local ipath
+    local ifs="$IFS"
+    IFS=$'\n'
+    gpaths=( $(eval "$fcmd" | while read dir; do
+        cd "$pw"
+        path="${dir#./}"
+        if [ "$path" != ".git" ]; then
+            path="${path%/.git}"
+            cd "$path"
+        fi
+        if [ -z "$ipath" ]; then
+            ipath="$PWD"
+            pwd
+        else
+            cmd="echo \${PWD#${ipath}/}"
+            if [ "$PWD" == $(eval "$cmd") ]; then
+                ipath=$PWD
+                pwd
+            fi
+        fi
+    done) )
+    IFS="$ifs"
+    GELEMENTS=${#gpaths[@]}
+    echo "Number: $GELEMENTS"
+}
+
 #global cmd0 cmdbr
 function execgit() {
     local result="$(2>&1 eval $cmd0)"
@@ -144,6 +175,15 @@ ELEMENTS=${#args[@]}
 pw="$PWD"
 i=0
 case "${args[${i}]}" in
+    #git tree and submodule root repos
+    -t)
+        if (( i<$ELEMENTS )); then
+            ((i++))
+            cmd0="${args[${i}]}"
+        fi
+        cmd0="${args[${i}]}"
+        gitroots
+        ;;
     #git submodule root repos, not git submodules
     -m)
         if (( i<$ELEMENTS )); then
