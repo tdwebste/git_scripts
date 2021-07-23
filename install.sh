@@ -14,6 +14,15 @@ if [ -z "$(eval $cmd)" ] ; then
     git clone https://github.com/git/git --depth 1
 fi
 
+cmd="find $HOME/.vim_runtime -name '.git' -prune"
+if [ -z "$(eval $cmd)" ] ; then
+    cd $HOME
+    git clone https://github.com/tdwebste/vimrc ~/.vim_runtime
+    sh ~/.vim_runtime/install_awesome_vimrc.sh
+    python update_plugins.py
+    cat  ~/.vim_runtime/README_ycm.txt
+fi
+
 gitd="$HOME/src/git_scripts"
 cmd="find $gitd -name '.git' -prune"
 if [ -z "$(eval $cmd)" ] ; then
@@ -26,14 +35,11 @@ if [ -d "$gitd/.git" ]; then
     ln -s $gitd/.bashrc ~/.bashrc
     mv ~/.gitconfig ~/.gitconfig.fb
     ln -s $gitd/.gitconfig ~/.gitconfig
-    mv ~/.nvimrc ~/.nvimrc.fb
-    ln -s $gitd/.vimrc_vundle ~/.nvimrc
-    mv ~/.vimrc ~/.vimrc.fb
-    ln -s $gitd/.vimrc_vundle ~/.vimrc
     mv ~/.tmux.conf ~/.tmux.conf.fb
     ln -s $gitd/.tmux.conf ~/.tmux.conf
     mv ~/.gdbinit ~/.gdbinit.fb
     ln -s $gitd/.gdbinit ~/.gdbinit
+
     cd $HOME/bin
     for f in $gitd/bin/*; do
         ln -s $gitd/bin/$f $HOME/bin/$f
@@ -43,22 +49,6 @@ fi
 exit
 
 # https://idorobotics.com/2018/04/01/setting-up-vim-for-c-development/
-if [ -d "$HOME/.vim/bundle/Vundle.vim" ] ; then
-    echo "vundle for vim already installed"
-else
-    mkdir -p $HOME/.vim/bundle
-    git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
-    vim +PluginInstall +qall
-fi
-if [ -d "$HOME/.vim/bundle/YouCompleteMe" ] ; then
-    cd $HOME/.vim/bundle/
-    git clone https://github.com/ycm-core/YouCompleteMe.git
-    cd "$HOME/.vim/bundle/YouCompleteMe"
-    git submodule update --init --recursive
-    sudo apt install build-essential cmake python3-dev
-    ./install.py --clangd-completer
-
-fi
 
 cd $pw
 
