@@ -386,10 +386,11 @@ fi
 
 #github ssh keys
 #https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
-eval "$(ssh-agent -s)"
-if [ -f ~/.ssh/id_dsa_github ]; then
-    ssh-add ~/.ssh/id_ed25519.pub
+if gh --version 2>&1 >/dev/null ; then
+    eval "$(gh completion -s bash)"
 fi
+
+eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/*_rsa
 
 if [ -d $HOME/.local/share/umake/bin ]; then

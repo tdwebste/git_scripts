@@ -1,3 +1,15 @@
+Github commandline gh
+=====================
+linux
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+sudo apt-add-repository https://cli.github.com/packages
+sudo apt update
+sudo apt install gh
+
+windows
+choco install gh
+choco upgrade gh
+
 disable touchpad
 ===============
 
@@ -62,7 +74,7 @@ cp ~/src/git_scripts/bin/* ~/bin
 ```
 
 Vim IDE
-==
+=======
 install neovim
 
 https://github.com/neovim/neovim/wiki/Installing-Neovim#appimage-universal-linux-package

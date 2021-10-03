@@ -59,3 +59,5 @@
 [user]
 	name = Timothy D. Webster
 	email = tdwebste@gmail.com
+[credential "https://github.com"]
+	helper = !/usr/bin/gh auth git-credential
