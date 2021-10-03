@@ -302,6 +302,9 @@ if [ -x /usr/bin/dircolors ]; then
     alias pcregrep='pcregrep --color=auto'
 fi
 alias git-greps="git branch -a | tr -d \* | sed '/->/d' | xargs git grep"
+#rust list file
+exa -v  >/dev/null 2>&1 && alias ll='exa -gbhHla'
+
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -468,4 +471,8 @@ fi
 
 if [ -d $HOME/.local/pipx/venvs ]; then
     export PATH="$HOME/.local/pipx/venvs/python-dev-tools/bin:$PATH"
+fi
+#zephyr
+if [ -d $HOME/.local/bin ]; then
+    export PATH="$HOME/.local/bin:$PATH"
 fi

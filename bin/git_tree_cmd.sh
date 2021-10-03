@@ -1,5 +1,17 @@
 #!/bin/bash
 
+#breath first find is faster
+if bfs --version  >/dev/null 2>&1 ;then
+    find=$(which bfs)
+else
+    if find --version  >/dev/null 2>&1 ; then
+        find=$(which find)
+    else
+        echo "find: NOT FOUND"
+        exit 1
+    fi
+fi
+
 # in bash functions global variables are often prefered over function text output
 # Not capturing function text output, execution is more robust
 
@@ -23,7 +35,7 @@ function usage() {
 #global gpaths pw path
 function allgitrepos() {
     echo "All git repos"
-    local fcmd="find $path -name '.git' -print -prune"
+    local fcmd="$find $path -name '.git' -print -prune"
     local ifs="$IFS"
     IFS=$'\n'
     gpaths=( $(eval "$fcmd" | while read dir; do
@@ -43,7 +55,7 @@ function allgitrepos() {
 #global gpaths pw path
 function allgitsubmodules() {
     echo "All submodules"
-    local fcmd="find $path -name '.gitmodules' -print -prune"
+    local fcmd="$find $path -name '.gitmodules' -print -prune"
     local ifs="$IFS"
     IFS=$'\n'
     gpaths=( $(eval "$fcmd" | while read dir; do
@@ -65,7 +77,7 @@ function allgitsubmodules() {
 #global gpaths pw path
 function gitsubmoduleroots() {
     echo "submodule Root"
-    local fcmd="find $path -name '.gitmodules' -print -prune"
+    local fcmd="$find $path -name '.gitmodules' -print -prune"
     local ipath
     local ifs="$IFS"
     IFS=$'\n'
@@ -95,7 +107,7 @@ function gitsubmoduleroots() {
 #global gpaths pw path
 function gitroots() {
     echo "Root"
-    local fcmd="find $path -name '.git' -print -prune"
+    local fcmd="$find $path -name '.git' -print -prune"
     local ipath
     local ifs="$IFS"
     IFS=$'\n'
