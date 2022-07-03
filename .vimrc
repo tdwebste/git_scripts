@@ -1,120 +1,67 @@
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-"call vundle#begin('~/some/path/here')
-Plugin 'google/vim-maktaba'
-Plugin 'google/vim-codefmt'
-Plugin 'google/vim-glaive'
+set runtimepath+=/home/tdwebste/src/git_scripts/vimrcs
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-"Plugin 'Valloric/YouCompleteMe'
+source /home/tdwebste/src/git_scripts/vimrcs/basic.vim
+source /home/tdwebste/src/git_scripts/vimrcs/filetypes.vim
 
-" Keep Plugin commands between vundle#begin/end.
-call vundle#end()
+call plug#begin()
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+"   - Vim (Windows): '~/vimfiles/plugged'
+"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+"   - e.g. `call plug#begin('~/.vim/plugged')`
+"   - Avoid using standard Vim directory names like 'plugin'
 
-syntax on
-filetype indent plugin on
+" Make sure you use single quotes
 
-set history=500
-set wildmenu
-set showcmd
-set hlsearch
-set ignorecase
-set smartcase
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+Plug 'junegunn/vim-easy-align'
 
-" Allow backspacing over autoindent, line breaks and start of insert action
-set backspace=indent,eol,start
-set autoindent
+" Any valid git URL is allowed
+Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
-"set nostartofline
+" Multiple Plug commands can be written in a single line using | separators
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-set ruler
-set laststatus=2
-
-" Instead of failing a command because of unsaved changes, instead raise a
-" dialogue asking if you wish to save changed files.
-set confirm
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 
-" Don't redraw while executing macros (good performance config)
-set lazyredraw
+" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+Plug 'fatih/vim-go', { 'tag': '*' }
 
-" For regular expressions turn magic on
-set magic
+" Plugin options
+Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 
-" Show matching brackets when text indicator is over them
-set showmatch
-" How many tenths of a second to blink when matching brackets
-set mat=5
+" Plugin outside ~/.vim/plugged with post-update hook
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-
-set visualbell
-set t_vb=
-
-" Enable use of the mouse for all modes
-set mouse=a
-
-" Set the command window height to 2 lines, to avoid many cases of having to
-" "press <Enter> to continue"
-set cmdheight=2
-
-" Quickly time out on keycodes, but never time out on mappings
-set notimeout ttimeout ttimeoutlen=200
-
-" Use <F11> to toggle between 'paste' and 'nopaste'
-set pastetoggle=<F11>
-
-set smartindent
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-" Indentation settings for using hard tabs for indent. Display tabs as
-" four characters wide.
-"set tabstop=4
+" Unmanaged plugin (manually installed and updated)
+Plug '~/my-prototype-plugin'
 
 
+Plug 'ycm-core/YouCompleteMe'
+Plug 'ycm-core/ycmd'
+" Using a non-default branch
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+Plug 'tenfyzhong/CompleteParameter.vim'
 
-call glaive#Install()
-" Optional: Enable codefmt's default mappings on the <Leader>= prefix.
-Glaive codefmt plugin[mappings]
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
 
-augroup autoformat_settings
-  autocmd FileType bzl AutoFormatBuffer buildifier
-  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
-  autocmd FileType dart AutoFormatBuffer dartfmt
-  autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType gn AutoFormatBuffer gn
-  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-  autocmd FileType java AutoFormatBuffer google-java-format
-  autocmd FileType python AutoFormatBuffer yapf
-  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
-  autocmd FileType vue AutoFormatBuffer prettier
-augroup END
-
-
-" Ignore compiled files
-set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*
-else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
-
-nnoremap <C-L> :nohl<CR><C-L>
-
-let acp_enableAtStartup=0
-
-command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
-
-
-" set foldmethod=syntax
-hi Folded ctermbg=black
-map <C-]> :YcmCompleter GoToImprecise<CR>
-let g:ycm_enable_diagnostic_signs = 1
-highlight YcmErrorLine ctermfg=White cterm=bold
+" Initialize plugin system
+call plug#end()
 
 
 
 
+
+source $HOME/src/git_scripts/vimrcs/plugs.vim
+source $HOME/src/git_scripts/vimrcs/extended.vim
+"source ~/.vim_runtime/vimrcs/extended.vim
+
+try
+source $runtimepath/my_configs.vim
+catch
+endtry
