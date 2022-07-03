@@ -50,6 +50,8 @@ Plug 'tenfyzhong/CompleteParameter.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 
+Plug 'sheerun/vim-polyglot'
+
 " Initialize plugin system
 call plug#end()
 
