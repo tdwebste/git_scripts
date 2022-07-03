@@ -303,7 +303,9 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 alias git-greps="git branch -a | tr -d \* | sed '/->/d' | xargs git grep"
 #rust list file
-exa -v  >/dev/null 2>&1 && alias ll='exa -gbhHla'
+if exa -v  >/dev/null 2>&1 ; then
+    alias ll='exa -gbhHla'
+fi
 
 
 # Add an "alert" alias for long running commands.  Use like so:
