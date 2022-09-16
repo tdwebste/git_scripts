@@ -388,6 +388,7 @@ fi
 
 #github ssh keys
 #https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+# install github cli https://github.com/cli/cli
 if gh --version 2>&1 >/dev/null ; then
     eval "$(gh completion -s bash)"
 fi
