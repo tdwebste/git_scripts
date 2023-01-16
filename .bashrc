@@ -96,8 +96,9 @@ function colorgrid_1( )
 export HISTCONTROL=ignoreboth
 
 #switch path order to select local autoconf or system autoconf
-#export PATH=$PATH:~/nrf/nrfjprog
-#export PATH=~/bin:
+if [ -d "/usr/share/segger_embedded_studio_for_arm_6.22a" ]; then
+    export PATH=$PATH:/usr/share/segger_embedded_studio_for_arm_6.22a/bin
+fi
 
 
 # append to the history file, don't overwrite it
@@ -392,6 +393,11 @@ if gh --version 2>&1 >/dev/null ; then
     eval "$(gh completion -s bash)"
 fi
 
+#gitlab
+if [ -f $HOME/.gitlab_personal_acc ]; then
+    export GCL_PERSONAL_ACCESS_TOKEN=$(cat $HOME/.gitlab_personal_acc)
+fi
+
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/*_rsa
 
@@ -475,9 +481,23 @@ fi
 if [ -d $HOME/.local/pipx/venvs ]; then
     export PATH="$HOME/.local/pipx/venvs/python-dev-tools/bin:$PATH"
 fi
+
+#strive
+if [ -d $HOME/strive/nrf-sdk ]; then
+    export nrf_sdk_path="$HOME/strive/nrf-sdk"
+fi
+if [ -d $HOME/strive/bootloader ]; then
+    export bootloader_path="$HOME/strive/bootloader"
+fi
+
+
 #zephyr
 if [ -d $HOME/.local/bin ]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
