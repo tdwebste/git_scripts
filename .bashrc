@@ -372,7 +372,7 @@ complete -o default -o nospace -F _git_checkout gco
 
 alias gco='git checkout'
 git config --global core.excludesfile "$HOME/.gitignore"
-git config --global user.name "Timothy D. Webster"
+git config --global user.name "\"$(getent passwd $USER | awk -F':' '{ print $5 }'| sed -e 's#,##g')\""
 if [ "$USER" == "" ]; then #windows git-shell hack
     USER=${HOME##*/}
 fi
