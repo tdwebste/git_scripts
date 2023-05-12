@@ -100,6 +100,11 @@ if [ -d "/usr/share/segger_embedded_studio_for_arm_6.22a" ]; then
     export PATH=$PATH:/usr/share/segger_embedded_studio_for_arm_6.22a/bin
 fi
 
+if [ -d "/usr/local/cuda/bin" ]; then
+    export PATH=$PATH:/usr/local/cuda/bin
+fi
+
+
 
 # append to the history file, don't overwrite it
 HISTSIZE=9999999999999000000
@@ -459,22 +464,20 @@ fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-if [ -d $HOME/anaconda3 ]; then
-    __conda_setup="$('$HOME/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
-            . "$HOME/anaconda3/etc/profile.d/conda.sh"
-        else
-            export PATH="$HOME/anaconda3/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
+__conda_setup="$('/home/tdwebste/mambaforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
 else
-    if [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
-        source "/opt/conda/etc/profile.d/conda.sh"
+    if [ -f "/home/tdwebste/mambaforge/etc/profile.d/conda.sh" ]; then
+        . "/home/tdwebste/mambaforge/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/tdwebste/mambaforge/bin:$PATH"
     fi
+fi
+unset __conda_setup
+
+if [ -f "/home/tdwebste/mambaforge/etc/profile.d/mamba.sh" ]; then
+    . "/home/tdwebste/mambaforge/etc/profile.d/mamba.sh"
 fi
 # <<< conda initialize <<<
 
