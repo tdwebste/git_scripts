@@ -7,6 +7,7 @@
 #	autocrlf = false
 [push]
 	default = simple
+	followTags = true
 [alias]
 	aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 	root = rev-parse --show-toplevel
@@ -47,6 +48,7 @@
 	tool = gvimdiff
 	submodule = log
 [difftool]
+	tool = gvimdiff
 	prompt = false
 [merge]
 	tool = gvimdiff
@@ -57,7 +59,7 @@
 [rebase]
 	autostash = true
 [user]
-	name = Timothy D. Webster
+	name = \"Timothy D. Webster42576660647787074922\"
 	email = tdwebste@gmail.com
 [credential "https://github.com"]
 	helper = !/usr/bin/gh auth git-credential
