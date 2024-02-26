@@ -59,7 +59,7 @@
 [rebase]
 	autostash = true
 [user]
-	name = \"Timothy D. Webster\"
+	name = \"Timothy Webster\"
 	email = tdwebste@gmail.com
 [credential "https://github.com"]
 	helper = !/usr/bin/gh auth git-credential
