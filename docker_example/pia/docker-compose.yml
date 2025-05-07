@@ -1,0 +1,38 @@
+version: '3'
+services:
+  gluetun:
+    image: ghcr.io/qdm12/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=pia
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=p3397377
+      - OPENVPN_PASSWORD='hklove34T135!#%'  # Escaped special chars
+      - PRIVATE_INTERNET_ACCESS_OPENVPN_ENCRYPTION_PRESET=strong
+      - SERVER_REGIONS=Netherlands
+      - DNS_KEEP_NAMESERVER=off
+      - DOT=on
+      - FIREWALL_VPN_INPUT_PORTS=8080
+    ports:
+      - "8080:8080/tcp"
+    restart: unless-stopped
+
+  qbittorrent-vpn:
+    image: ghcr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent-vpn
+    depends_on:
+      - gluetun
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8080
+    volumes:
+      - ./qbittorrent/config:/config
+      - ./downloads:/downloads
+    network_mode: "service:gluetun"
+    restart: unless-stopped
