@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# default
+# git_tree_cmd.sh
+# git_tree_cmd.sh . "git branch -a |grep -F '*'"
+
+# git_tree_cmd.sh "{FoamAdapter,OpenFOAM}"  "git grep 'Pstream::master'"
+
 #breath first find is faster
 if bfs --version  >/dev/null 2>&1 ;then
     find=$(which bfs)
@@ -160,6 +166,7 @@ $result"
 
 ### MAIN ###
 
+
 path="$1"
 cmd="ls -d $path"
 dirs=$(eval "$cmd")
@@ -254,10 +261,12 @@ echo "cmd:
 $cmd0"
 
 GELEMENTS=${#gpaths[@]}
-#echo "gpaths: $GELEMENTS: " "${gpaths[@]}"
+echo "gpaths: $GELEMENTS: " "${gpaths[@]}"
 
 #tmpfiles=()
 tmpfilebase="/tmp/$scriptname.$$."
+#cat "$tmpfilebase"
+
 for (( i=0; i < $GELEMENTS; i++ )); do
     dir="${gpaths[${i}]}"
     cd "$dir"
@@ -268,8 +277,12 @@ for (( i=0; i < $GELEMENTS; i++ )); do
 done
 wait
 
-outflist=$(echo "${tmpfilebase}*.tmp")
-ocmd="cat $outflist && rm $outflist"
-#echo "$ocmd"
-eval "$ocmd"
+if [ $GELEMENTS -eq 0 ]; then
+    echo "No git paths found"
+else    
+    outflist=$(echo "${tmpfilebase}*.tmp")
+    ocmd="cat $outflist && rm $outflist"
+    #echo "$ocmd"
+    eval "$ocmd"
+fi
 
