@@ -348,7 +348,7 @@ if ! shopt -oq posix; then
 fi
 
 eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/*_rsa
+#ssh-add ~/.ssh/*_rsa
 
  # if the command-not-found package is installed, use it
 if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-not-found ]; then
