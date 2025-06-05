@@ -9,9 +9,19 @@ from sendgrid.helpers.mail import Mail
 
 message = Mail(
     from_email='timw@genistsystems.com',
-    to_emails='tdwebste@example.com',
-    subject='Sending with Twilio SendGrid is Fun',
+    to_emails='tdwebste@gmail.com',
+    subject='Twilio:M1 errors',
     html_content='<strong>and easy to do anywhere, even with Python</strong>')
+"""
+    attachments: [
+        {
+            content: attachment,
+            filename: "attachment.pdf",
+            type: "application/pdf",
+            disposition: "attachment"
+        }
+    ]
+"""
 try:
     sg = sendgrid.SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
     response = sg.send(message)

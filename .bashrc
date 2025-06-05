@@ -8,6 +8,8 @@ if [ -f /etc/bash.bashrc ]; then
     . /etc/bash.bashrc
 fi
 
+umask 007
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -99,11 +101,6 @@ export HISTCONTROL=ignoreboth
 if [ -d "/usr/share/segger_embedded_studio_for_arm_6.22a" ]; then
     export PATH=$PATH:/usr/share/segger_embedded_studio_for_arm_6.22a/bin
 fi
-
-if [ -d "/usr/local/cuda/bin" ]; then
-    export PATH=$PATH:/usr/local/cuda/bin
-fi
-
 
 
 # append to the history file, don't overwrite it
@@ -350,9 +347,8 @@ if ! shopt -oq posix; then
     fi
 fi
 
-if [ -e /usr/bin/aws_completer ]; then
-    complete -C '/usr/bin/aws_completer' aws
-fi
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/*_rsa
 
  # if the command-not-found package is installed, use it
 if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found/command-not-found ]; then
@@ -404,8 +400,11 @@ if [ -f $HOME/.gitlab_personal_acc ]; then
     export GCL_PERSONAL_ACCESS_TOKEN=$(cat $HOME/.gitlab_personal_acc)
 fi
 
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/*_rsa
+if [ -e /usr/bin/aws_completer ]; then
+    complete -C '/usr/bin/aws_completer' aws
+fi
+
+################ local customizations below #########################
 
 if [ -d $HOME/.local/share/umake/bin ]; then
     # Ubuntu make installation of Ubuntu Make binary symlink
@@ -517,4 +516,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH=~/.local/bin:"$PATH"
-. "$HOME/.cargo/env"
+#. "$HOME/.cargo/env"
