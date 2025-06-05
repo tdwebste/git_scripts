@@ -377,11 +377,6 @@ git config --global user.name "\"$(getent passwd $USER | awk -F':' '{ print $5 }
 if [ "$USER" == "" ]; then #windows git-shell hack
     USER=${HOME##*/}
 fi
-if echo $USERNAME | grep -q '^v-t' ; then
-    git config --global user.email "$USERNAME@microsoft.com"
-else
-    git config --global user.email "$USER@gmail.com"
-fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -451,63 +446,6 @@ if [ -f $HOME/.cargo/env ]; then
 fi
 if [ -d $HOME/.cargo/bin ]; then
     export PATH=$HOME/.cargo/bin:"$PATH"
-fi
-
-# source intel compiler configuration
-#if [ -f ~/.bashrc_intel ]; then
-#    . ~/.bashrc_intel
-#fi
-
-# facebook and pytorch loves anaconda, I DO NOT
-# yet another enviroment makes it hard to integrate
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$("$HOME/mambaforge/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "$HOME/mambaforge/etc/profile.d/conda.sh" ]; then
-        . "$HOME/mambaforge/etc/profile.d/conda.sh"
-    else
-        export PATH="$HOME/mambaforge/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-
-if [ -f "$HOME/mambaforge/etc/profile.d/mamba.sh" ]; then
-    . "$HOME/mambaforge/etc/profile.d/mamba.sh"
-fi
-# <<< conda initialize <<<
-
-
-# Created by `userpath` on 2020-03-10 02:14:19
-
-#add all the strange opt directories
-if [ -d /opt/balenaEtcher ]; then
-    export PATH=/opt/balenaEtcher:$PATH
-fi
-
-if [ -d $HOME/.local/pipx/venvs ]; then
-    export PATH="$HOME/.local/pipx/venvs/python-dev-tools/bin:$PATH"
-fi
-
-#strive
-if [ -d $HOME/strive/nrf-sdk ]; then
-    export nrf_sdk_path="$HOME/strive/nrf-sdk"
-fi
-if [ -d $HOME/strive/bootloader ]; then
-    export bootloader_path="$HOME/strive/bootloader"
-fi
-
-
-#zephyr
-if [ -d $HOME/.local/bin ]; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [ -d $HOME/platform-tools ]; then
-    export PATH=$HOME/platform-tools:$PATH
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
