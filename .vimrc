@@ -40,10 +40,14 @@ Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 
 " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-Plug 'fatih/vim-go', { 'tag': '*' }
+"Plug 'fatih/vim-go', { 'tag': '*' }
 
 " Plugin options
-Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+"Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+
+" ctags
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -72,7 +76,8 @@ call plug#end()
 
 source $HOME/src/git_scripts/vimrcs/plugs.vim
 source $HOME/src/git_scripts/vimrcs/extended.vim
-"source ~/.vim_runtime/vimrcs/extended.vim
+"source $HOME/src/git_scripts/vimrcs/plugfull.vim
+"source $HOME/src/git_scripts/vimrcs/plugins_config.vim
 
 try
 source $runtimepath/my_configs.vim
