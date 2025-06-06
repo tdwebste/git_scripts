@@ -1,7 +1,18 @@
-set runtimepath+=/home/tdwebste/src/git_scripts/vimrcs
+" First time setup
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" "open vim
+" gvim
+" :PlugInstall
+" " check
+" :echo exists('*plug#begin')
+" "    If it returns 1 → you're good.
+" "    If it returns 0 → vim-plug still isn't loaded.
 
-source /home/tdwebste/src/git_scripts/vimrcs/basic.vim
-source /home/tdwebste/src/git_scripts/vimrcs/filetypes.vim
+
+set runtimepath+=$HOME/src/git_scripts/vimrcs
+
+source $HOME/src/git_scripts/vimrcs/basic.vim
+source $HOME/src/git_scripts/vimrcs/filetypes.vim
 
 call plug#begin()
 " The default plugin directory will be as follows:
