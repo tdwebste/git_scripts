@@ -2,6 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+#set -e # don't use in interactive shells
 
 # Source global definitions
 if [ -f /etc/bash.bashrc ]; then
@@ -455,3 +456,15 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH=~/.local/bin:"$PATH"
 #. "$HOME/.cargo/env"
+
+if [ -d /opt/OpenVSP ]; then
+    export PATH=/opt/OpenVSP:$PATH
+    export ALTAIR_LICENSE_PATH=6200@ml1
+fi
+
+
+if [ -d /opt/piavpn ]; then
+    export PATH=/opt/OpenVSP:$PATH
+    export ALTAIR_LICENSE_PATH=6200@ml1
+fi
+

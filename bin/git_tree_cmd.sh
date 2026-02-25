@@ -242,14 +242,14 @@ case "${args[${i}]}" in
         GELEMENTS=${#gpaths[@]}
         echo "Number: $GELEMENTS"
         ;;
+    #usage
+   -h)
+        usage
+        ;;
     #all git repos
     *)
         cmd0="${args[${i}]}"
         allgitrepos
-        ;;
-    #usage
-   -h)
-        usage
         ;;
 esac
 
@@ -279,7 +279,7 @@ wait
 
 if [ $GELEMENTS -eq 0 ]; then
     echo "No git paths found"
-else    
+else
     outflist=$(echo "${tmpfilebase}*.tmp")
     ocmd="cat $outflist && rm $outflist"
     #echo "$ocmd"
