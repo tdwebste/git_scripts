@@ -11,6 +11,10 @@ fi
 
 umask 007
 
+export EDITOR="gvim -f"
+export VISUAL="gvim -f"
+
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -102,6 +106,10 @@ export HISTCONTROL=ignoreboth
 if [ -d "/usr/share/segger_embedded_studio_for_arm_6.22a" ]; then
     export PATH=$PATH:/usr/share/segger_embedded_studio_for_arm_6.22a/bin
 fi
+
+export GID=$(id -g)
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 
 
 # append to the history file, don't overwrite it
