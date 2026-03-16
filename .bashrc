@@ -459,6 +459,17 @@ if [ -d $HOME/.cargo/bin ]; then
     export PATH=$HOME/.cargo/bin:"$PATH"
 fi
 
+if [ -d "/opt/EVT" ]; then
+    export ECAPTURE_PRO_DIR="/opt/EVT/eCapturePro"
+    export ESDK="/opt/EVT/eSDK"
+
+# export LD_LIBRARY_PATH=$ECAPTURE_PRO_DIR/bin:$ECAPTURE_PRO_DIR/bin/eCapturePro:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=$ECAPTURE_PRO_DIR/eSdkPro/lib:$ESDK/lib:$ESDK/genicam/bin/Linux64_x64:$LD_LIBRARY_PATH
+    export QT_PLUGIN_PATH=$ECAPTURE_PRO_DIR/eSdkPro/plugins
+    export QT_QPA_PLATFORM_PLUGIN_PATH=$ECAPTURE_PRO_DIR/bin/platforms
+fi
+
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export NVM_DIR="$HOME/.nvm"
