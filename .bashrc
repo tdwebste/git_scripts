@@ -489,4 +489,7 @@ if [ -d /opt/piavpn ]; then
     export ALTAIR_LICENSE_PATH=6200@ml1
 fi
 
-source /opt/ros/humble/setup.bash
+rosd=$(echo /opt/ros/*)
+if [ -d $rosd ]; then 
+    source /opt/ros/humble/setup.bash
+fi
