@@ -491,5 +491,5 @@ fi
 
 rosd=$(echo /opt/ros/*)
 if [ -d $rosd ]; then 
-    source /opt/ros/humble/setup.bash
+    source $rosd/setup.bash
 fi
