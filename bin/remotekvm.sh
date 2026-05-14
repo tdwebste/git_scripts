@@ -44,7 +44,9 @@ REMOTE_USER="tdwebste"
 REMOTE_HOST="ml2"
 LOCAL_PORT="5900"
 
-ssh -N -L ${LOCAL_PORT}:localhost:${LOCAL_PORT} ${REMOTE_USER}@${REMOTE_HOST} &
+cmd="ssh -N -L $((LOCAL_PORT + vm_input)):localhost:$((LOCAL_PORT + vm_input)) ${REMOTE_USER}@${REMOTE_HOST}"
+echo "$cmd"
+eval "$cmd" &
 SSH_PID=$!
 
 sleep 1

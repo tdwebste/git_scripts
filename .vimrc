@@ -66,6 +66,12 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 
 Plug 'sheerun/vim-polyglot'
+" markdown
+Plug 'JamshedVesuna/vim-markdown-preview'
+"Plug 'godlygeek/tabular'
+"Plug 'preservim/vim-markdown'
+
+
 
 " Initialize plugin system
 call plug#end()
