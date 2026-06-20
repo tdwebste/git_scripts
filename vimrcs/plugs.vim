@@ -41,7 +41,16 @@ let NERDTreeShowHidden = 1      " Show hidden files
 let NERDTreeShowLineNumbers = 0 " Hide line numbers
 let NERDTreeMinimalMenu = 1     " Use the minimal menu (m)
 let g:NERDTreeWinPos = "right"
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+" Exclude these before NERDTree scans them.
+let g:NERDTreeRespectWildIgnore = 1
+set wildignore+=mlnx_signing_key_pub.der
+set wildignore+=.genius-fifo-fromrl
+set wildignore+=.genius-fifo-torl
+
+let g:NERDTreeIgnore = [
+      \ '\.pyc$',
+      \ '__pycache__$',
+      \ ]
 let g:NERDTreeWinSize=35
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>

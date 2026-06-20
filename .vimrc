@@ -86,6 +86,7 @@ source $HOME/src/git_scripts/vimrcs/extended.vim
 "source $HOME/src/git_scripts/vimrcs/plugins_config.vim
 
 try
-source $runtimepath/my_configs.vim
+#source $runtimepath/my_configs.vim
+source $HOME/src/git_scripts/vimrcs/my_configs.vim
 catch
 endtry
