@@ -48,6 +48,7 @@ Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 " ctags
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
+Plug 'preservim/tagbar'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -64,6 +65,7 @@ Plug 'tenfyzhong/CompleteParameter.vim'
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
+Plug 'mbbill/undotree'
 
 Plug 'sheerun/vim-polyglot'
 " markdown

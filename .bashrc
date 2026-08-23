@@ -371,7 +371,7 @@ fi
 complete -o default -o nospace -F _git_checkout gco
 
 alias gco='git checkout'
-#git config --global core.excludesfile "$HOME/.gitignore"
+git config --global core.excludesfile "$HOME/.gitignore"
 #git config --global user.name "\"$(getent passwd $USER | awk -F':' '{ print $5 }'| sed -e 's#,##g')\""
 if [ "$USER" == "" ]; then #windows git-shell hack
     USER=${HOME##*/}
@@ -413,6 +413,8 @@ if [ -d /snap/bin ]; then
 fi
 
 if uname -a | grep -q Linux; then
+    export DIPLAY=locathost:0.0
+    export XAUTHORITY=$HOME/.Xauthority
     echo ""
 else
     export DISPLAY=localhost:0.0
@@ -481,3 +483,35 @@ rosd=$(echo /opt/ros/*)
 if [ -d $rosd ]; then 
     source $rosd/setup.bash
 fi
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/tdwebste/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/tdwebste/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/home/tdwebste/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/tdwebste/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/home/tdwebste/miniforge3/bin/mamba';
+export MAMBA_ROOT_PREFIX='/home/tdwebste/miniforge3';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
+#
+
+xhost +
