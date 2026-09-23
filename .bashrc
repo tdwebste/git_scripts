@@ -23,13 +23,10 @@ esac
 
 
 if uname -a | grep -q Linux; then
-    SCRIPT=$(readlink -f ${BASH_SOURCE[0]})
-    SRCDIR="${SCRIPT%/git_scripts/.bashrc}"
+    GIT_SCRIPTS_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
     export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
     #what type of os
     source /usr/lib/os-release
-else
-    SRCDIR="${HOME}/src"
 fi
 
 
@@ -144,16 +141,15 @@ export GIT_PS1_SHOWUPSTREAM="auto"  # "<>" diverged and "=" no difference.
 
 export PS1_DELAY=1
 
-
-if [ -f ${SRCDIR}/git_scripts/findbranch.sh ]; then
+if [ -x "$GIT_SCRIPTS_DIR/findbranch.sh" ]; then
     _timed_git_ps1() {
-        timeout $PS1_DELAY ${SRCDIR}/git_scripts/findbranch.sh
+        timeout "$PS1_DELAY" "$GIT_SCRIPTS_DIR/findbranch.sh"
     }
 else
     echo "findbranch: not found"
-    echo "$SRCDIR"
+    echo "$GIT_SCRIPTS_DIR/findbranch.sh"
     _timed_git_ps1() {
-        time __git_ps1
+        __git_ps1
     }
 fi
 
