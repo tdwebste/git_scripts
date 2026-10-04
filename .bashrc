@@ -29,6 +29,62 @@ if uname -a | grep -q Linux; then
     source /usr/lib/os-release
 fi
 
+# Convert a 256-colour index to its hex code (standard xterm palette)
+function idx2hex( )
+{
+    local n=$1
+    case "$n" in
+        ''|*[!0-9]*) echo "usage: idx2hex 0-255" >&2; return 1 ;;
+    esac
+    if [ "$n" -gt 255 ]; then
+        echo "idx2hex: index out of range (0-255)" >&2
+        return 1
+    fi
+
+    local -a base=(000000 800000 008000 808000 000080 800080 008080 C0C0C0
+                   808080 FF0000 00FF00 FFFF00 0000FF FF00FF 00FFFF FFFFFF)
+    local -a lv=(0 95 135 175 215 255)
+    if [ "$n" -lt 16 ]; then
+        printf '#%s' "${base[$n]}"
+    elif [ "$n" -lt 232 ]; then
+        n=$((n-16))
+        printf '#%02X%02X%02X' ${lv[$((n/36))]} ${lv[$(((n/6)%6))]} ${lv[$((n%6))]}
+    else
+        local v=$((8 + (n-232)*10))
+        printf '#%02X%02X%02X' $v $v $v
+    fi
+}
+
+function show() {  # show START END COLS
+    local i
+    for ((i=$1; i<=$2; i++)); do
+        printf '\033[48;5;%dm   \033[0m %03d %s  ' "$i" "$i" "$(idx2hex "$i")"
+        (( (i-$1+1) % $3 == 0 )) && echo
+    done
+    echo
+}
+
+function hexcolor() {
+
+show 0 15 8
+show 16 231 6
+show 232 255 6
+}
+
+
+# Named table for the 16 base colours
+function colorgrid_named( )
+{
+    local -a names=(black maroon green olive navy purple teal silver
+                    grey red lime yellow blue fuchsia aqua white)
+    local i
+    for i in {0..15}
+    do
+        echo -en "\033[38;5;${i}m█ "
+        printf "%03d %s %s" $i "$(idx2hex $i)" "${names[$i]}"
+        echo -e "\033[0m"
+    done
+}
 
 function colorgrid_5( )
 {
