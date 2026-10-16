@@ -206,9 +206,17 @@ endif
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
+" Detect existing line endings correctly
+set fileformats=unix,dos,mac
 
+" Default to Unix line endings
+set fileformat=unix
+
+" Force Unix line endings whenever saving
+augroup ForceUnixLineEndings
+    autocmd!
+    autocmd BufWritePre * setlocal fileformat=unix
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>  diff
