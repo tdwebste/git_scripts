@@ -29,6 +29,21 @@ if uname -a | grep -q Linux; then
     source /usr/lib/os-release
 fi
 
+xsu() {
+    local target_user="${1:?Usage: xsu USER}"
+    local target_home
+
+    target_home=$(getent passwd "$target_user" | cut -d: -f6) || return 1
+    [[ -n "$target_home" ]] || return 1
+    [[ -n "$DISPLAY" ]] || { echo "DISPLAY is not set"; return 1; }
+
+    xauth extract - "$DISPLAY" |
+        sudo -H -u "$target_user" \
+            env XAUTHORITY="$target_home/.Xauthority" xauth merge - || return 1
+
+    sudo -i -u "$target_user"
+}
+
 # Convert a 256-colour index to its hex code (standard xterm palette)
 function idx2hex( )
 {
