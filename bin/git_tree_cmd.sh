@@ -118,7 +118,7 @@ function gitallworktrees() {
     local fcmd="$find $path -name '.git' -print -prune"
     local ipath
     local ifs="$IFS"
-    local cmd
+    local cmd9
     IFS=$'\n'
     gpaths=( $(eval "$fcmd" | while read dir; do
         cd "$pw"
@@ -134,10 +134,10 @@ function gitallworktrees() {
             cd .git/worktrees
             for wt in *; do
                 echo
-                cmd="cd ..; realpath $(cat $wt/commondir)/$wt"
+                cmd9="cd ..; realpath $(cat $wt/commondir)/$wt"
                 #echo "$PWD cmd: $cmd" >&2
                 #eval "$cmd" >&2
-                eval "$cmd"
+                eval "$cmd9"
             done
         fi
     done) )
@@ -152,7 +152,6 @@ function gitworktrees() {
     local fcmd="$find $path -name '.git' -print -prune"
     local ipath
     local ifs="$IFS"
-    local cmd
     IFS=$'\n'
     gpaths=( $(eval "$fcmd" | while read dir; do
         cd "$pw"
@@ -213,7 +212,7 @@ function execgit() {
 $PWD"
         if [ "$cmd0" != "$cmdbr" ]; then
             rtnstr="$rtnstr
-    $(eval $cmdbr)"
+    $(eval $cmd0)"
         fi
         if [ $status != 0 ]; then
             rtnstr="$rtnstr
