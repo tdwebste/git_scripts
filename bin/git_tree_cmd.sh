@@ -33,7 +33,9 @@ function usage() {
         -a All git submodule repos
         -m git submodule Root repo
         -n NOT git submodule repo
-        -t top git tree or submodule repo"
+        -t top git tree or submodule repo
+        -w git worktree roots
+        -l git worktree roots and links"
     echo "\"script cmd\": script ran in each git repo"
     exit
 }
@@ -103,6 +105,66 @@ function gitsubmoduleroots() {
                 ipath=$PWD
                 pwd
             fi
+        fi
+    done) )
+    IFS="$ifs"
+    GELEMENTS=${#gpaths[@]}
+    echo "Number: $GELEMENTS"
+}
+
+#global gpaths pw path
+function gitallworktrees() {
+    echo "Worktrees all"
+    local fcmd="$find $path -name '.git' -print -prune"
+    local ipath
+    local ifs="$IFS"
+    local cmd
+    IFS=$'\n'
+    gpaths=( $(eval "$fcmd" | while read dir; do
+        cd "$pw"
+        path="${dir#./}"
+        if [ "$path" != ".git" ]; then
+            path="${path%/.git}"
+            cd "$path"
+        fi
+        #pwd >&2
+        #ls  .git/worktrees >&2
+        if [ -d ".git/worktrees" ]; then
+            pwd
+            cd .git/worktrees
+            for wt in *; do
+                echo
+                cmd="cd ..; realpath $(cat $wt/commondir)/$wt"
+                #echo "$PWD cmd: $cmd" >&2
+                #eval "$cmd" >&2
+                eval "$cmd"
+            done
+        fi
+    done) )
+    IFS="$ifs"
+    GELEMENTS=${#gpaths[@]}
+    echo "Number: $GELEMENTS"
+}
+
+#global gpaths pw path
+function gitworktrees() {
+    echo "Worktrees"
+    local fcmd="$find $path -name '.git' -print -prune"
+    local ipath
+    local ifs="$IFS"
+    local cmd
+    IFS=$'\n'
+    gpaths=( $(eval "$fcmd" | while read dir; do
+        cd "$pw"
+        path="${dir#./}"
+        if [ "$path" != ".git" ]; then
+            path="${path%/.git}"
+            cd "$path"
+        fi
+        #pwd >&2
+        #ls  .git/worktrees >&2
+        if [ -d ".git/worktrees" ]; then
+            pwd
         fi
     done) )
     IFS="$ifs"
@@ -194,6 +256,24 @@ ELEMENTS=${#args[@]}
 pw="$PWD"
 i=0
 case "${args[${i}]}" in
+    #git worktrees
+    -l)
+        if (( i<$ELEMENTS )); then
+            ((i++))
+            cmd0="${args[${i}]}"
+        fi
+        cmd0="${args[${i}]}"
+        gitallworktrees
+        ;;
+    #git worktrees
+    -w)
+        if (( i<$ELEMENTS )); then
+            ((i++))
+            cmd0="${args[${i}]}"
+        fi
+        cmd0="${args[${i}]}"
+        gitworktrees
+        ;;
     #git tree and submodule root repos
     -t)
         if (( i<$ELEMENTS )); then
@@ -254,6 +334,7 @@ case "${args[${i}]}" in
 esac
 
 cmdbr="git branch -a |grep -F '*'"
+cmdbr="git worktree list | awk 'NR==1 {base=\$0; next} NR==2 {print \"[BASE]   \" base} NR>1 {print \"[LINKED] \" \$0}'; git branch -a |grep -F '*'"
 if [ -z "$cmd0" ]; then
     cmd0="$cmdbr"
 fi
@@ -261,6 +342,7 @@ echo "cmd:
 $cmd0"
 
 GELEMENTS=${#gpaths[@]}
+echo
 echo "gpaths: $GELEMENTS: " "${gpaths[@]}"
 
 #tmpfiles=()
