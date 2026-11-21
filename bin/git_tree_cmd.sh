@@ -361,9 +361,14 @@ wait
 if [ $GELEMENTS -eq 0 ]; then
     echo "No git paths found"
 else
-    outflist=$(echo "${tmpfilebase}*.tmp")
-    ocmd="cat $outflist && rm $outflist"
-    #echo "$ocmd"
-    eval "$ocmd"
-fi
+    shopt -s nullglob
+    outfiles=( "${tmpfilebase}"*.tmp )
+    shopt -u nullglob
 
+    if (( ${#outfiles[@]} > 0 )); then
+        cat -- "${outfiles[@]}"
+        rm -f -- "${outfiles[@]}"
+    else
+        echo "NULL OUTPUT"
+    fi
+fi
